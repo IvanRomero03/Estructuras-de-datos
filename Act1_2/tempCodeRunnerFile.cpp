@@ -1,0 +1,1 @@
+act1_2 > .\TestCases\test01.txt
