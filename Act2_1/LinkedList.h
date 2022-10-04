@@ -31,6 +31,8 @@ public:
     void updateAt(int index, T newVal);
     int findData(T val);
     void operator=(LinkedList<T> &list);
+    int getSize();
+    void print();
 };
 
 template <class T>
@@ -254,6 +256,26 @@ void LinkedList<T>::operator=(LinkedList<T> &list)
         addLast(temp->val);
         temp = temp->next;
     }
+}
+
+template <class T>
+int LinkedList<T>::getSize()
+{
+    // O(1)
+    return size;
+}
+
+template <class T>
+void LinkedList<T>::print()
+{
+    // O(n)
+    Node *temp = head;
+    while (temp != nullptr)
+    {
+        std::cout << temp->val << " ";
+        temp = temp->next;
+    }
+    std::cout << std::endl;
 }
 
 #endif // _LINKEDLIST_H_
