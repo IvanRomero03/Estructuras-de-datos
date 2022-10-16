@@ -32,6 +32,5 @@ int main()
         Registro reg(mes, dia, hora, minuto, segundo, falla, ip, puerto);
         lista.addLast(reg);
     }
-    lista.sort();
-    
+    std::ofstream bitacoraordenada;
 }
