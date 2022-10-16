@@ -1,7 +1,12 @@
+/*
+    g++ main.cpp -o main & .\main < .\bitacora-1-1.txt
+*/
+
 #include <iostream>
 #include <string>
 #include "DoublyLinkedList.h"
 #include "Registro.h"
+#include <fstream>
 
 int main()
 {
@@ -32,6 +37,17 @@ int main()
         Registro reg(mes, dia, hora, minuto, segundo, falla, ip, puerto);
         lista.addLast(reg);
     }
-    std::ofstream bitacoraordenada;
-    // chúpala mariano
+    lista.sort();
+    std::ofstream filesort("bitacora_ordenada.txt");
+    if (filesort.is_open())
+    {
+        DoublyLinkedList<Registro>::iterator it = lista.begin();
+        while (it != lista.end())
+        {
+            filesort << (*it) << endl;
+            it++;
+        }
+        filesort.close();
+    } 
+    else cout << "Problem with opening file";
 }

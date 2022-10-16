@@ -133,6 +133,10 @@ public:
     {
         return iterator(head);
     }
+    iterator end()
+    {
+        return iterator(nullptr);
+    }
 };
 
 template <class T>
