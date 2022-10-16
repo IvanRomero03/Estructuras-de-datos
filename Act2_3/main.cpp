@@ -1,5 +1,6 @@
 /*
     g++ main.cpp -o main & .\main < .\TestCases\test0x.txt
+    Iván Romero || Mariano Barberi
 */
 
 #include <iostream>
@@ -99,8 +100,6 @@ int main()
         } 
         filesearch.close();
     } else cout << "Problem with opening file";
-
-
 
     return 0;
 }
