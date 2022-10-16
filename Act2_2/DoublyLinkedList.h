@@ -25,7 +25,7 @@ private:
     Node *tail;
     int size;
     // FIXME: Ver si no ocupa std:: // si ocupaba jaja
-    std::pair<DoublyLinkedList<T>, DoublyLinkedList<T>> split(int index);
+    void split(int index, DoublyLinkedList<T> &l1, DoublyLinkedList<T> &l2);
     DoublyLinkedList<T> mergeSortedLists(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2);
 
 public:
@@ -312,30 +312,24 @@ void DoublyLinkedList<T>::operator=(DoublyLinkedList<T> list)
 }
 
 template <class T>
-std::pair<DoublyLinkedList<T>, DoublyLinkedList<T>> DoublyLinkedList<T>::split(int index)
+void DoublyLinkedList<T>::split(int index, DoublyLinkedList<T> &l1, DoublyLinkedList<T> &l2)
 {
     // O(n)
     if (index < 0 || index >= size)
     {
-        return std::make_pair(DoublyLinkedList<T>(), DoublyLinkedList<T>());
+        return;
     }
-    DoublyLinkedList<T> list1, list2;
     Node *temp = head;
     for (int i = 0; i < index; i++)
     {
-        list1.addLast(temp->val);
+        l1.addLast(temp->val);
         temp = temp->next;
     }
     while (temp != nullptr)
     {
-        list2.addLast(temp->val);
+        l2.addLast(temp->val);
         temp = temp->next;
     }
-    std::cout << "List 1: " << std::endl;
-    list1.print();
-    std::cout << "List 2: " << std::endl;
-    list2.print();
-    return std::make_pair(list1, list2);
 }
 
 template <class T>
@@ -379,12 +373,11 @@ void DoublyLinkedList<T>::sort()
     {
         return;
     }
-    std::cout << "Sorting..." << std::endl;
-    std::pair<DoublyLinkedList<T>, DoublyLinkedList<T>> lists = split(size / 2);
-    std::cout << "Splitting..." << std::endl;
-    lists.first.sort();
-    lists.second.sort();
-    *this = mergeSortedLists(lists.first, lists.second);
+    DoublyLinkedList<T> l1, l2;
+    split(size / 2, l1, l2);
+    l1.sort();
+    l2.sort();
+    *this = mergeSortedLists(l1, l2);
 }
 
 template <class T>
@@ -445,15 +438,14 @@ DoublyLinkedList<T> DoublyLinkedList<T>::getReversedSublist(int start, int end)
 {
     // O(n)
     DoublyLinkedList<T> list;
-    Node *temp = head;
-    for (int i = 0; i < start; i++)
+    Node *temp = tail;
+    for (int i = size - 1; i >= 0; i--)
     {
-        temp = temp->next;
-    }
-    for (int i = start; i <= end; i++)
-    {
-        list.addFirst(temp->val);
-        temp = temp->next;
+        if (i >= start && i <= end)
+        {
+            list.addLast(temp->val);
+        }
+        temp = temp->prev;
     }
     return list;
 }

@@ -1,9 +1,9 @@
 {
     "files.associations": {
-        "*.tcc": "cpp",
-        "iosfwd": "cpp",
+        "iostream": "cpp",
         "array": "cpp",
         "atomic": "cpp",
+        "*.tcc": "cpp",
         "bitset": "cpp",
         "cctype": "cpp",
         "cfenv": "cpp",
@@ -53,7 +53,7 @@
         "future": "cpp",
         "initializer_list": "cpp",
         "iomanip": "cpp",
-        "iostream": "cpp",
+        "iosfwd": "cpp",
         "istream": "cpp",
         "limits": "cpp",
         "mutex": "cpp",
