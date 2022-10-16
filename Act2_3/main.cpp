@@ -33,4 +33,5 @@ int main()
         lista.addLast(reg);
     }
     std::ofstream bitacoraordenada;
+    // chúpala mariano
 }
