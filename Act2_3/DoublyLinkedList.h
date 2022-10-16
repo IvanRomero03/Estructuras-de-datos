@@ -27,6 +27,40 @@ private:
     // FIXME: Ver si no ocupa std:: // si ocupaba jaja
     void split(int index, DoublyLinkedList<T> &l1, DoublyLinkedList<T> &l2);
     DoublyLinkedList<T> mergeSortedLists(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2);
+    Node *BS(Node *start, Node *end, T val)
+    {
+        // Está definido aquí porque da errores si lo pongo afuera
+        // O(n) en tiempo de ejecución, O(log n) comparaciones
+        if (start == end)
+        {
+            return start;
+        }
+        Node *slow = start;
+        Node *fast = start;
+
+        while (fast != end)
+        {
+            fast = fast->next;
+            if (fast != end)
+            {
+                slow = slow->next;
+                fast = fast->next;
+            }
+        }
+        Node *mid = slow;
+        if (mid->val == val)
+        {
+            return mid;
+        }
+        if (mid->val < val)
+        {
+            return BS(mid->next, end, val);
+        }
+        else
+        {
+            return BS(start, mid, val);
+        }
+    }
 
 public:
     DoublyLinkedList();
@@ -49,48 +83,13 @@ public:
     void duplicate();
     void removeDuplicates();
     DoublyLinkedList<T> getReversedSublist(int start, int end);
-    Node *BS(Node *start, Node *end, T val)
-    {
-        // O(logn)
-        if (start == end || start->next == end)
-        {
-            if (start->val >= val)
-            {
-                return start;
-            }
-            else
-            {
-                return end;
-            }
-        }
-        Node *slow = start;
-        Node *fast = start;
-
-        while (fast != end)
-        {
-            fast = fast->next->next;
-            if (fast != end)
-            {
-                slow = slow->next;
-                fast = fast->next;
-            }
-        }
-        Node *mid = slow;
-        if (mid->val < val)
-        {
-            return BS(mid->next, end, val);
-        }
-        else
-        {
-            return BS(start, mid, val);
-        }
-    }
     DoublyLinkedList<T> getRange(T start, T end);
 };
 
 template <class T>
 DoublyLinkedList<T>::DoublyLinkedList()
 {
+    // O(1)
     head = nullptr;
     tail = nullptr;
     size = 0;
@@ -488,9 +487,9 @@ DoublyLinkedList<T> DoublyLinkedList<T>::getReversedSublist(int start, int end)
 }
 
 // template <class T>
-// Node *DoublyLinkedList<T>::BS(Node *start, Node *end, T val)
+// DoublyLinkedList<T>::Node *DoublyLinkedList<T>::BS(Node *start, Node *end, T val)
 // {
-//     // O(logn)
+//     // O(n)
 //     if (start == end || start->next == end)
 //     {
 //         if (start->val >= val)
@@ -524,5 +523,37 @@ DoublyLinkedList<T> DoublyLinkedList<T>::getReversedSublist(int start, int end)
 //         return BS(start, mid, val);
 //     }
 // }
+
+template <class T>
+DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
+{
+    // O(n)
+    Node *startRange = this->BS(head, tail, start);
+    Node *endRange = this->BS(startRange, tail, end);
+    DoublyLinkedList<T> list;
+    Node *temp = startRange;
+    while (temp != endRange)
+    {
+        list.addLast(temp->val);
+        temp = temp->next;
+    }
+    if (list.getData(0) != start)
+    {
+        std::cout << "Primer valor no en el rango" << std::endl;
+    }
+    if (temp->val == end)
+    {
+        list.addLast(temp->val);
+    }
+    else
+    {
+        std::cout << "Ultimo valor no en el rango" << std::endl;
+        if (temp->val < end)
+        {
+            list.addLast(temp->val);
+        }
+    }
+    return list;
+}
 
 #endif // _DoublyLinkedList_H_
