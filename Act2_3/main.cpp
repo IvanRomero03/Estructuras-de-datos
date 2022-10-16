@@ -33,5 +33,5 @@ int main()
         lista.addLast(reg);
     }
     lista.sort();
-    lista.print();
+    
 }
