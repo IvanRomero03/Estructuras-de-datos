@@ -1,5 +1,5 @@
 /*
-    g++ main.cpp -o main & .\main < .\bitacora-1-1.txt
+    g++ main.cpp -o main & .\main < .\TestCases\test0x.txt
 */
 
 #include <iostream>
