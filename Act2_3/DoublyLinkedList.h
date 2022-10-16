@@ -84,6 +84,51 @@ public:
     void removeDuplicates();
     DoublyLinkedList<T> getReversedSublist(int start, int end);
     DoublyLinkedList<T> getRange(T start, T end);
+    class iterator
+    {
+    private:
+        Node *current;
+
+    public:
+        iterator(Node *current)
+        {
+            this->current = current;
+        }
+        iterator operator++()
+        {
+            current = current->next;
+            return *this;
+        }
+        iterator operator++(int)
+        {
+            iterator temp = *this;
+            current = current->next;
+            return temp;
+        }
+        iterator operator--()
+        {
+            current = current->prev;
+            return *this;
+        }
+        iterator operator--(int)
+        {
+            iterator temp = *this;
+            current = current->prev;
+            return temp;
+        }
+        bool operator==(const iterator &other) const
+        {
+            return current == other.current;
+        }
+        bool operator!=(const iterator &other) const
+        {
+            return current != other.current;
+        }
+        T &operator*()
+        {
+            return current->val;
+        }
+    };
 };
 
 template <class T>
