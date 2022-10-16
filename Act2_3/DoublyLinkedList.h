@@ -49,6 +49,43 @@ public:
     void duplicate();
     void removeDuplicates();
     DoublyLinkedList<T> getReversedSublist(int start, int end);
+    Node *BS(Node *start, Node *end, T val)
+    {
+        // O(logn)
+        if (start == end || start->next == end)
+        {
+            if (start->val >= val)
+            {
+                return start;
+            }
+            else
+            {
+                return end;
+            }
+        }
+        Node *slow = start;
+        Node *fast = start;
+
+        while (fast != end)
+        {
+            fast = fast->next->next;
+            if (fast != end)
+            {
+                slow = slow->next;
+                fast = fast->next;
+            }
+        }
+        Node *mid = slow;
+        if (mid->val < val)
+        {
+            return BS(mid->next, end, val);
+        }
+        else
+        {
+            return BS(start, mid, val);
+        }
+    }
+    DoublyLinkedList<T> getRange(T start, T end);
 };
 
 template <class T>
@@ -449,5 +486,43 @@ DoublyLinkedList<T> DoublyLinkedList<T>::getReversedSublist(int start, int end)
     }
     return list;
 }
+
+// template <class T>
+// Node *DoublyLinkedList<T>::BS(Node *start, Node *end, T val)
+// {
+//     // O(logn)
+//     if (start == end || start->next == end)
+//     {
+//         if (start->val >= val)
+//         {
+//             return start;
+//         }
+//         else
+//         {
+//             return end;
+//         }
+//     }
+//     Node *slow = start;
+//     Node *fast = start;
+
+//     while (fast != end)
+//     {
+//         fast = fast->next->next;
+//         if (fast != end)
+//         {
+//             slow = slow->next;
+//             fast = fast->next;
+//         }
+//     }
+//     Node *mid = slow;
+//     if (mid->val < val)
+//     {
+//         return BS(mid->next, end, val);
+//     }
+//     else
+//     {
+//         return BS(start, mid, val);
+//     }
+// }
 
 #endif // _DoublyLinkedList_H_
