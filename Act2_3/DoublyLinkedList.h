@@ -129,6 +129,10 @@ public:
             return current->val;
         }
     };
+    iterator begin()
+    {
+        return iterator(head);
+    }
 };
 
 template <class T>
