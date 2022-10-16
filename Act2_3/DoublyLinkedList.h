@@ -283,7 +283,7 @@ T DoublyLinkedList<T>::getData(int index)
     // O(n)
     if (index < 0 || index >= size)
     {
-        return -1;
+        return T();
     }
     Node *temp = head;
     for (int i = 0; i < index; i++)
@@ -594,6 +594,11 @@ DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
     {
         std::cout << "Primer valor no en el rango" << std::endl;
     }
+    std::cout<<temp->val<<std::endl;
+    std::cout<<end<<std::endl;
+    std::cout<<(temp->val == end)<<std::endl;
+    std::cout<<end.getTimeStamp()<<std::endl;
+    std::cout<<temp->val.getTimeStamp()<<std::endl;
     if (temp->val == end)
     {
         list.addLast(temp->val);

@@ -86,6 +86,7 @@ Registro::Registro(std::string mes, std::string dia, std::string hora, std::stri
     this->timeStruct.tm_year = 122;
     this->timeStamp = mktime(&timeStruct);
 }
+
 bool Registro::operator==(const Registro &otro) const
 {
     return this->timeStamp == otro.timeStamp;
@@ -151,5 +152,6 @@ std::ostream &operator<<(std::ostream &os, const Registro &r)
     os << r.mes << " " << r.dia << " " << r.hora << ":" << r.minuto << ":" << r.segundo << " " << r.ip << ":" << r.puerto << " " << r.falla;
     return os;
 }
+
 
 #endif
