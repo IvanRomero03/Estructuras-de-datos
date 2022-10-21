@@ -51,7 +51,7 @@ int main()
   myBST.visit();
   std::cout<<"height: "<<myBST.height()<<std::endl;
   
-  std::cout<<"ancestor (3)";
+  std::cout<<"ancestors (3): ";
   myBST.ancestors(3);
   std::cout<<"";
   
