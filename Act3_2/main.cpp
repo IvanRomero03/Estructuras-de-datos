@@ -3,7 +3,7 @@
 
 int main()
 {
-    std::cout << "Ejemplo de un Priority Queue (PQ)\n";
+    std::cout << "Ejemplo de un Priority Queue (PQ)" << std::endl;
 
     PriorityQueue<int> PQ;
     PQ.push(10);
