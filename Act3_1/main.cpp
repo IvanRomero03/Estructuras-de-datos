@@ -47,4 +47,9 @@ int main()
 
   myBST.visit();
   myBST.height();
+
+  myBST.ancestors(3);
+
+  std::cout<<"level (3): "<<myBST.whatLevelAmI(3)<<std::endl;
+  std::cout<<"level (10): "<<myBST.whatLevelAmI(10)<<std::endl;
 }
