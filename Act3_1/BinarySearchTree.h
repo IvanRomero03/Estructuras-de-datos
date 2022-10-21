@@ -9,7 +9,7 @@ template <class T>
 class BinarySearchTree
 {
     private:
-        int size;
+        long long unsigned int size;
         void printInOrder(Node* node)
         {
             if(root == nullptr){
