@@ -44,8 +44,19 @@ int main()
   std::cout << "deleteNode(20) " << std::endl;
   myBST.deleteNode(20);
   myBST.print();
+  std::cout<<"\n";
+
 
   myBST.ancestors(15);
   myBST.visit();
-  myBST.height();
+  std::cout<<"height: "<<myBST.height()<<std::endl;
+  
+  std::cout<<"ancestor (3)";
+  myBST.ancestors(3);
+  std::cout<<"";
+  
+  std::cout<<"level (3): "<<myBST.whatLevelAmI(3)<<std::endl;
+  std::cout<<"level (10): "<<myBST.whatLevelAmI(10)<<std::endl;
+
+  return 0;
 }
