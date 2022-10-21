@@ -9,7 +9,38 @@ template <class T>
 class BinarySearchTree
 {
     private:
-        long long unsigned int size;
+        int size;
+        struct Node
+        {
+            T val;
+            Node* left;
+            Node* right;
+            Node(T val, Node* left, Node* right)
+            {
+                this->val = val;
+                this->left = left;
+                this->right = right;
+            }
+            Node()
+            {
+                this->val = T();
+                this->left = nullptr;
+                this->right = nullptr;
+            }
+            Node(T val)
+            {
+                this->val = val;
+                this->left = nullptr;
+                this->right = nullptr;
+            }
+            std::ostream& operator<<(std::ostream& os)
+            {
+                os << this->val;
+                return os;
+            }
+        };
+        Node* root;
+
         void printInOrder(Node* node)
         {
             if(root == nullptr){
@@ -374,7 +405,7 @@ void BinarySearchTree<T>::ancestors(T val)
     std::unordered_map<T, bool> IsAncestor;
     bool found = mark(root, val, marked);
     if(!found){
-        cout << "El nodo no existe en el BST" << endl;
+        std::cout << "El nodo no existe en el BST" << std::endl;
         return;
     }
     Node* current = root;
