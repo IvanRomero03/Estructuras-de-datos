@@ -354,7 +354,7 @@ bool BinarySearchTree<T>::mark(Node* node, T val, std::unordered_map<T, bool>& m
         return false;
     }
     if(node->val == val){
-        marked[node] = true;
+        marked[node->val] = true;
         return true;
     }
     bool found = false;
@@ -362,7 +362,7 @@ bool BinarySearchTree<T>::mark(Node* node, T val, std::unordered_map<T, bool>& m
     found += mark(node->right, val, marked);
     
     if(found){
-        marked[node] = true;
+        marked[node->val] = true;
         return true;
     }
     return false;
@@ -381,18 +381,20 @@ void BinarySearchTree<T>::ancestors(T val)
     Node* current = root;
     std::cout << "Los ancestros del nodo son: ";
     while(current != nullptr){
-        std::cout << current << " ";
-        if(marked[current->left]){
+        std::cout << current->val << " ";
+        if(current->left != nullptr && marked[current->left->val]){
             current = current->right;
         }
         else{
-            if(marked[current->right]){
+            if(current->right != nullptr && marked[current->right->val]){
                 current = current->left;
             } else{
+                std::cout << std::endl;
                 return;
             }
         }
     }
+
     return;
 }
 

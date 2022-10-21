@@ -45,6 +45,7 @@ int main()
   myBST.deleteNode(20);
   myBST.print();
 
+  myBST.ancestors(15);
   myBST.visit();
   myBST.height();
 }
