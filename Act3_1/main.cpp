@@ -20,10 +20,10 @@ int main()
   
 
   myBST.print();
-  //myBST.print
-  myBST.printPreOrder();
-  myBST.printPostOrder();
-  myBST.printInOrder();
+  // myBST.print
+  // myBST.printPreOrder();
+  // myBST.printPostOrder();
+  // myBST.printInOrder();
 
  
   std::cout << "search(15) " << std::boolalpha << myBST.find(15) << std::endl;

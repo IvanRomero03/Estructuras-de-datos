@@ -121,36 +121,6 @@ class BinarySearchTree
         }
         
     public:
-        struct Node
-        {
-            T val;
-            Node* left;
-            Node* right;
-            Node(T val, Node* left, Node* right)
-            {
-                this->val = val;
-                this->left = left;
-                this->right = right;
-            }
-            Node()
-            {
-                this->val = T();
-                this->left = nullptr;
-                this->right = nullptr;
-            }
-            Node(T val)
-            {
-                this->val = val;
-                this->left = nullptr;
-                this->right = nullptr;
-            }
-            std::ostream& operator<<(std::ostream& os)
-            {
-                os << this->val;
-                return os;
-            }
-        };
-        Node* root;
         BinarySearchTree();
         ~BinarySearchTree();
         void clear();
@@ -161,7 +131,7 @@ class BinarySearchTree
         void visit();
         int height();
         void ancestors(T val);
-        bool mark(Node* node, T val, std::unordered_map<Node*, bool>& marked);
+        bool mark(Node* node, T val, std::unordered_map<T, bool>& marked);
         int whatLevelAmI(T val);
 };
 
@@ -202,7 +172,7 @@ void BinarySearchTree<T>::insert(T val)
 {
     Node* newNode = new Node(val);
     if(root == nullptr){
-        root = temp;
+        root = newNode;
         size++;
         return;
     }
@@ -379,7 +349,7 @@ int BinarySearchTree<T>::height()
 }
 
 template <class T>
-bool BinarySearchTree<T>::mark(Node* node, T val, std::unordered_map<Node*, bool>& marked){
+bool BinarySearchTree<T>::mark(Node* node, T val, std::unordered_map<T, bool>& marked){
     if(node == nullptr){
         return false;
     }
@@ -402,7 +372,7 @@ bool BinarySearchTree<T>::mark(Node* node, T val, std::unordered_map<Node*, bool
 template <class T>
 void BinarySearchTree<T>::ancestors(T val)
 {
-    std::unordered_map<T, bool> IsAncestor;
+    std::unordered_map<T, bool> marked;
     bool found = mark(root, val, marked);
     if(!found){
         std::cout << "El nodo no existe en el BST" << std::endl;
@@ -412,11 +382,11 @@ void BinarySearchTree<T>::ancestors(T val)
     std::cout << "Los ancestros del nodo son: ";
     while(current != nullptr){
         std::cout << current << " ";
-        if(isAncestor[current->left]){
+        if(marked[current->left]){
             current = current->right;
         }
         else{
-            if(isAncestor[current->right]){
+            if(marked[current->right]){
                 current = current->left;
             } else{
                 return;
