@@ -87,9 +87,9 @@ T PriorityQueue<T>::top()
 {
     if (!empty())
         return list[0];
-    else
+    else{
         std::cout << "Empty queue" << std::endl;
-        throw std::out_of_range("Empty queue");
+    }
 }
 
 template <typename T>

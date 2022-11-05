@@ -1,3 +1,5 @@
+// g++ -std=c++17 -Wall -O3 -o main *.cpp
+
 #include <iostream> 
 #include "PriorityQueue.h"
 
@@ -17,32 +19,19 @@ int main()
 
     PQ.print();
 
-    std::cout << "top " << PQ.top() << std::endl;
+    std::cout << "PQ.top(): " << PQ.top() << std::endl;
+    std::cout<<"pop"<<std::endl;
     PQ.pop();
-    std::cout << "top " << PQ.top() << std::endl;
+    std::cout << "PQ.top(): " << PQ.top() << std::endl;
+    PQ.print();
+    std::cout<<"pop"<<std::endl;
     PQ.pop();
-    std::cout << "top " << PQ.top() << std::endl;
-    PQ.pop();
-    std::cout << "top " << PQ.top() << std::endl;
-    PQ.pop();
-    std::cout << "top " << PQ.top() << std::endl;
-    PQ.pop();
-    std::cout << "top " << PQ.top() << std::endl;
-    PQ.pop();
-    std::cout << "top " << PQ.top() << std::endl;
-    PQ.pop();
-    std::cout << "top " << PQ.top() << std::endl;
-    PQ.pop();
-    try {
-        std::cout << "top " << PQ.top() << std::endl;
-        PQ.pop();
-    }
-    catch (std::exception& e) {
-        std::cout << "Exception: " << e.what() << std::endl;
-    }
+    std::cout << "PQ.top(): " << PQ.top() << std::endl;
+    PQ.print();
+    
 
     std::cout << "size " << PQ.size() << std::endl;
-    std::cout << "empty " << std::boolalpha << PQ.empty() << std::endl;
+    std::cout << "empty? " << std::boolalpha << PQ.empty() << std::endl;
 
     return 0;
     
