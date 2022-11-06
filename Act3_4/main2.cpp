@@ -12,7 +12,9 @@ int main()
 {
     vector<Registro> registros = leerArchivo("bitacoraHeap-1.txt");
     PriorityQueue<Registro> cola(registros);
-    cola.print();
+    ofstream archivoSalida("bitacora_ordenada.txt");
+    cola.print(archivoSalida);
+    archivoSalida.close();
 
     return 0;
 }

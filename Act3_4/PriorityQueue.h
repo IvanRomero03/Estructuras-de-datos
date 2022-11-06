@@ -22,7 +22,7 @@ public:
     T top();
     bool empty();
     int size();
-    void print();
+    void print(std::ostream &os);
 };
 
 template <typename T>
@@ -118,11 +118,11 @@ int PriorityQueue<T>::size()
 }
 
 template <typename T>
-void PriorityQueue<T>::print()
+void PriorityQueue<T>::print(std::ostream &os)
 {
     for (int i = 0; i < list.size(); i++)
     {
-        std::cout << list[i] << std::endl;
+        os << list[i] << std::endl;
     }
 }
 
