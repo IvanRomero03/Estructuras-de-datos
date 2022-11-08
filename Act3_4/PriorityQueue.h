@@ -23,6 +23,8 @@ public:
     bool empty();
     int size();
     void print(std::ostream &os);
+    std::vector<T> getList();
+    std::vector<T> getSortedList();
 };
 
 template <typename T>
@@ -103,6 +105,7 @@ T PriorityQueue<T>::top()
     {
         std::cout << "Empty queue" << std::endl;
     }
+    return T();
 }
 
 template <typename T>
@@ -124,6 +127,25 @@ void PriorityQueue<T>::print(std::ostream &os)
     {
         os << list[i] << std::endl;
     }
+}
+
+template <typename T>
+std::vector<T> PriorityQueue<T>::getList()
+{
+    return list;
+}
+
+template <typename T>
+std::vector<T> PriorityQueue<T>::getSortedList()
+{
+    std::vector<T> sortedList;
+    PriorityQueue<T> copy = PriorityQueue<T>(list);
+    while (!copy.empty())
+    {
+        sortedList.push_back(copy.top());
+        copy.pop();
+    }
+    return sortedList;
 }
 
 #endif // _PRIOQUEUE_H

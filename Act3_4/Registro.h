@@ -41,6 +41,7 @@ public:
     void print();
     std::string toString();
     friend std::ostream &operator<<(std::ostream &os, const Registro &r);
+    std::string getIP();
 };
 
 Registro::Registro()
@@ -155,4 +156,8 @@ std::ostream &operator<<(std::ostream &os, const Registro &r)
     return os;
 }
 
+std::string Registro::getIP()
+{
+    return this->ip;
+}
 #endif
