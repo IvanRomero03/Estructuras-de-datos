@@ -3,6 +3,7 @@
 #include "Registro.h"
 #include <vector>
 #include <fstream>
+#include "BinarySearchTree.h"
 
 using namespace std;
 
@@ -25,6 +26,12 @@ int main()
     vector<pair<Registro, int>> frecuencias = getFrecuencias(lista);
 
     ofstream archivoSalida2("ips_con_mayor_acceso.txt");
+
+    BinarySearchTree<pair<Registro, int>> BST;
+    for (int i = 0; i < lista.size(); i++)
+    {
+        BST.insert(frecuencias[i]);
+    }
 
     for (int i = 0; i < 5; i++)
     {
