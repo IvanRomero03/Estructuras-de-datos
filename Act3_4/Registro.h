@@ -77,6 +77,7 @@ Registro::Registro(std::string mes, std::string dia, std::string hora, std::stri
 }
 int Registro::IPtoInt(std::string ip) const
 {
+    // O(1)
     int res = 0;
     int i = 0;
     while (ip[i] != '.')
@@ -106,16 +107,19 @@ int Registro::IPtoInt(std::string ip) const
 }
 bool Registro::operator==(const Registro &otro) const
 {
+    // O(1)
     std::string ip1 = this->ip;
     std::string ip2 = otro.ip;
     return ip1 == ip2;
 }
 bool Registro::operator!=(const Registro &otro) const
 {
+    // O(1)
     return !(*this == otro);
 }
 bool Registro::operator<(const Registro &otro) const
 {
+    // O(1)
     std::string ip1 = this->ip;
     std::string ip2 = otro.ip;
     return IPtoInt(ip1) < IPtoInt(ip2);
@@ -123,6 +127,7 @@ bool Registro::operator<(const Registro &otro) const
 
 bool Registro::operator>(const Registro &otro) const
 {
+    // O(1)
     std::string ip1 = this->ip;
     std::string ip2 = otro.ip;
     return IPtoInt(ip1) > IPtoInt(ip2);
@@ -130,34 +135,41 @@ bool Registro::operator>(const Registro &otro) const
 
 bool Registro::operator<=(const Registro &otro) const
 {
+    // O(1)
     return !(*this > otro);
 }
 
 bool Registro::operator>=(const Registro &otro) const
 {
+    // O(1)
     return !(*this < otro);
 }
 
 time_t Registro::getTimeStamp()
 {
+    // O(1)
     return this->timeStamp;
 }
 void Registro::print()
 {
+    // O(1)
     std::cout << this->mes << " " << this->dia << " " << this->hora << ":" << this->minuto << ":" << this->segundo << " " << this->ip << ":" << this->puerto << " " << this->falla << std::endl;
 }
 std::string Registro::toString()
 {
+    // O(1)
     return this->mes + " " + this->dia + " " + this->hora + ":" + this->minuto + ":" + this->segundo + " " + this->ip + ":" + this->puerto + " " + this->falla;
 }
 std::ostream &operator<<(std::ostream &os, const Registro &r)
 {
+    // O(1)
     os << r.mes << " " << r.dia << " " << r.hora << ":" << r.minuto << ":" << r.segundo << " " << r.ip << ":" << r.puerto << " " << r.falla;
     return os;
 }
 
 std::string Registro::getIP()
 {
+    // O(1)
     return this->ip;
 }
 #endif

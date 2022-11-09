@@ -35,6 +35,7 @@ PriorityQueue<T>::PriorityQueue()
 template <typename T>
 PriorityQueue<T>::PriorityQueue(std::vector<T> list)
 {
+    // O(n)
     this->list = list;
     for (int i = list.size() / 2; i >= 0; i--)
     {
@@ -50,6 +51,7 @@ PriorityQueue<T>::~PriorityQueue()
 template <typename T>
 void PriorityQueue<T>::swap(int i, int j)
 {
+    // O(1)
     T temp = list[i];
     list[i] = list[j];
     list[j] = temp;
@@ -58,6 +60,7 @@ void PriorityQueue<T>::swap(int i, int j)
 template <typename T>
 void PriorityQueue<T>::heap(int i)
 {
+    // O(logn)
     int left = 2 * i + 1;
     int right = 2 * i + 2;
     int largest = i;
@@ -75,6 +78,7 @@ void PriorityQueue<T>::heap(int i)
 template <typename T>
 void PriorityQueue<T>::push(T value)
 {
+    // O(logn)
     list.push_back(value);
     int i = list.size() - 1;
     while (i > 0 && list[(i - 1) / 2] < list[i])
@@ -87,6 +91,7 @@ void PriorityQueue<T>::push(T value)
 template <typename T>
 void PriorityQueue<T>::pop()
 {
+    // O(logn)
     if (!empty())
     {
         list[0] = list[list.size() - 1];
@@ -99,6 +104,7 @@ void PriorityQueue<T>::pop()
 template <typename T>
 T PriorityQueue<T>::top()
 {
+    // O(1)
     if (!empty())
         return list[0];
     else
@@ -111,18 +117,21 @@ T PriorityQueue<T>::top()
 template <typename T>
 bool PriorityQueue<T>::empty()
 {
+    // O(1)
     return list.size() == 0;
 }
 
 template <typename T>
 int PriorityQueue<T>::size()
 {
+    // O(1)
     return list.size();
 }
 
 template <typename T>
 void PriorityQueue<T>::print(std::ostream &os)
 {
+    // O(n)
     for (int i = 0; i < list.size(); i++)
     {
         os << list[i] << std::endl;
@@ -132,12 +141,14 @@ void PriorityQueue<T>::print(std::ostream &os)
 template <typename T>
 std::vector<T> PriorityQueue<T>::getList()
 {
+    // O(1)
     return list;
 }
 
 template <typename T>
 std::vector<T> PriorityQueue<T>::getSortedList()
 {
+    // O(nlogn)
     std::vector<T> sortedList;
     PriorityQueue<T> copy = PriorityQueue<T>(list);
     while (!copy.empty())

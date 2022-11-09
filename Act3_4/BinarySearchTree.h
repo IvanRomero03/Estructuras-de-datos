@@ -42,7 +42,8 @@ private:
     Node *root;
 
     void printInOrder(Node *node)
-    {
+    { 
+        // O(n)
         if (root == nullptr)
         {
             std::cout << "El arbol está vacío" << std::endl;
@@ -63,7 +64,8 @@ private:
         }
     }
     void printPreOrder(Node *node)
-    {
+    { 
+        // O(n)
         if (root == nullptr)
         {
             std::cout << "El arbol está vacío" << std::endl;
@@ -84,7 +86,8 @@ private:
         }
     }
     void printPostOrder(Node *node)
-    {
+    { 
+        // O(n)
         if (root == nullptr)
         {
             std::cout << "El arbol está vacío" << std::endl;
@@ -106,6 +109,7 @@ private:
     }
     void printLevelOrder()
     {
+        // O(n)
         if (root == nullptr)
         {
             std::cout << "El arbol está vacío" << std::endl;
@@ -156,6 +160,7 @@ public:
 template <class T>
 BinarySearchTree<T>::BinarySearchTree()
 {
+    // O(1)
     root = nullptr;
     size = 0;
 }
@@ -163,6 +168,7 @@ BinarySearchTree<T>::BinarySearchTree()
 template <class T>
 void BinarySearchTree<T>::clear()
 {
+    // O(n)
     std::queue<Node *> q;
     q.push(root);
     while (!q.empty())
@@ -186,12 +192,14 @@ void BinarySearchTree<T>::clear()
 template <class T>
 BinarySearchTree<T>::~BinarySearchTree()
 {
+    // O(n)
     clear();
 }
 
 template <class T>
 void BinarySearchTree<T>::insert(T val)
 {
+    // O(log n)
     Node *newNode = new Node(val);
     if (root == nullptr)
     {
@@ -232,6 +240,7 @@ void BinarySearchTree<T>::insert(T val)
 template <class T>
 void BinarySearchTree<T>::deleteNode(T val)
 {
+    // O(log n)
     Node *current = root;
     Node *prev = nullptr;
     while (current != nullptr)
@@ -320,6 +329,7 @@ void BinarySearchTree<T>::deleteNode(T val)
 template <class T>
 void BinarySearchTree<T>::print()
 {
+    // O(n)
     std::queue<Node *> q;
     q.push(root);
     while (!q.empty())
@@ -342,6 +352,7 @@ void BinarySearchTree<T>::print()
 template <class T>
 bool BinarySearchTree<T>::find(T val)
 {
+    // O(log n)
     Node *current = root;
     while (current != nullptr)
     {
@@ -364,6 +375,7 @@ bool BinarySearchTree<T>::find(T val)
 template <class T>
 void BinarySearchTree<T>::visit()
 {
+    // O(n)
     std::cout << "El árbol tiene " << size << " nodos" << std::endl;
     std::cout << "Escoja una opción:" << std::endl;
     std::cout << "1. Preorder" << std::endl;
@@ -395,6 +407,7 @@ void BinarySearchTree<T>::visit()
 template <class T>
 int BinarySearchTree<T>::height()
 {
+    // O(n)
     std::queue<Node *> level;
     level.push(root);
     int height = 0;
@@ -422,6 +435,7 @@ int BinarySearchTree<T>::height()
 template <class T>
 bool BinarySearchTree<T>::mark(Node *node, T val, std::unordered_map<T, bool> &marked)
 {
+    // O(n)
     if (node == nullptr)
     {
         return false;
@@ -446,6 +460,7 @@ bool BinarySearchTree<T>::mark(Node *node, T val, std::unordered_map<T, bool> &m
 template <class T>
 void BinarySearchTree<T>::ancestors(T val)
 {
+    // O(n)
     std::unordered_map<T, bool> marked;
     bool found = mark(root, val, marked);
     if (!found)
@@ -482,6 +497,7 @@ void BinarySearchTree<T>::ancestors(T val)
 template <class T>
 int BinarySearchTree<T>::whatLevelAmI(T val)
 {
+    // O(n)
     Node *current = root;
     int level = 0;
     while (current != nullptr)
@@ -507,6 +523,7 @@ int BinarySearchTree<T>::whatLevelAmI(T val)
 template <class T>
 T BinarySearchTree<T>::getBiggest()
 {
+    // O(log n)
     Node *current = root;
     while (current->right != nullptr)
     {
