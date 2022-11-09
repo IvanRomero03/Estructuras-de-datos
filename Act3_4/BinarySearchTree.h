@@ -150,6 +150,7 @@ public:
     void ancestors(T val);
     bool mark(Node *node, T val, std::unordered_map<T, bool> &marked);
     int whatLevelAmI(T val);
+    T getBiggest();
 };
 
 template <class T>
@@ -501,6 +502,17 @@ int BinarySearchTree<T>::whatLevelAmI(T val)
     }
 
     return -1;
+}
+
+template <class T>
+T BinarySearchTree<T>::getBiggest()
+{
+    Node *current = root;
+    while (current->right != nullptr)
+    {
+        current = current->right;
+    }
+    return current->val;
 }
 
 #endif // _BIN_SEARCH_TREE_H

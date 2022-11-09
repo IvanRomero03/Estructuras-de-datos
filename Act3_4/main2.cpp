@@ -27,15 +27,17 @@ int main()
 
     ofstream archivoSalida2("ips_con_mayor_acceso.txt");
 
-    BinarySearchTree<pair<Registro, int>> BST;
-    for (int i = 0; i < lista.size(); i++)
+    BinarySearchTree<pair<int, Registro>> BST;
+    for (int i = 0; i < frecuencias.size(); i++)
     {
-        BST.insert(frecuencias[i]);
+        BST.insert({frecuencias[i].second, frecuencias[i].first});
     }
 
     for (int i = 0; i < 5; i++)
     {
-        archivoSalida2 << frecuencias[i].first.getIP() << " " << frecuencias[i].second << endl;
+        pair<int, Registro> Biggest = BST.getBiggest();
+        archivoSalida2 << Biggest.second.getIP() << " " << Biggest.first << std::endl;
+        BST.deleteNode(Biggest);
     }
 
     archivoSalida2.close();
@@ -45,6 +47,7 @@ int main()
 
 vector<Registro> leerArchivo(string nombreArchivo)
 {
+    // O(n)
     vector<Registro> registros;
     ifstream archivo(nombreArchivo);
     string linea;
@@ -115,6 +118,7 @@ vector<Registro> leerArchivo(string nombreArchivo)
 
 int getUntilDifferent(std::vector<Registro> registros, int i)
 {
+    // O(logn)
     int j = registros.size() - 1;
     int mid = (i + j) / 2;
 
@@ -135,6 +139,7 @@ int getUntilDifferent(std::vector<Registro> registros, int i)
 
 vector<pair<Registro, int>> getFrecuencias(std::vector<Registro> registros)
 {
+    // O(nlogn)
     vector<pair<Registro, int>> frecuencias;
     int i = 0;
     while (i < registros.size() - 1)
