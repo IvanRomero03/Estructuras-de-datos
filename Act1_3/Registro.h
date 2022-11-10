@@ -82,66 +82,82 @@ Registro::Registro(std::string mes, std::string dia, std::string hora, std::stri
 
 bool Registro::operator==(const Registro &otro) const
 {
+    //O(1)
     return this->timeStamp == otro.timeStamp;
 }
 bool Registro::operator==(const time_t &otro) const
 {
+    //O(1)
     return this->timeStamp == otro;
 }
 bool Registro::operator!=(const Registro &otro) const
 {
+    //O(1)
     return !(*this == otro);
 }
 bool Registro::operator!=(const time_t &otro) const
 {
+    //O(1)
     return !(*this == otro);
 }
 bool Registro::operator<(const Registro &otro) const
 {
+    //O(1)
     return this->timeStamp < otro.timeStamp;
 }
 bool Registro::operator<(const time_t &otro) const
 {
+    //O(1)
     return this->timeStamp < otro;
 }
 bool Registro::operator>(const Registro &otro) const
 {
+    //O(1)
     return this->timeStamp > otro.timeStamp;
 }
 bool Registro::operator>(const time_t &otro) const
 {
+    //O(1)
     return this->timeStamp > otro;
 }
 bool Registro::operator<=(const Registro &otro) const
 {
+    //O(1)
     return this->timeStamp <= otro.timeStamp;
 }
 bool Registro::operator<=(const time_t &otro) const
 {
+    //O(1)
     return this->timeStamp <= otro;
 }
 bool Registro::operator>=(const Registro &otro) const
 {
+    //O(1)
     return this->timeStamp >= otro.timeStamp;
 }
 bool Registro::operator>=(const time_t &otro) const
 {
+    //O(1)
     return this->timeStamp >= otro;
 }
 time_t Registro::getTimeStamp()
 {
+    //O(1)
     return this->timeStamp;
 }
 void Registro::print()
 {
+    //O(1)
     std::cout << this->mes << " " << this->dia << " " << this->hora << ":" << this->minuto << ":" << this->segundo << " " << this->ip << ":" << this->puerto << " " << this->falla << std::endl;
 }
 std::string Registro::toString()
 {
+    //O(1)
     return this->mes + " " + this->dia + " " + this->hora + ":" + this->minuto + ":" + this->segundo + " " + this->ip + ":" + this->puerto + " " + this->falla;
 }
 std::ostream &operator<<(std::ostream &os, const Registro &r)
 {
+    //O(1)
     os << r.mes << " " << r.dia << " " << r.hora << ":" << r.minuto << ":" << r.segundo << " " << r.ip << ":" << r.puerto << " " << r.falla;
     return os;
 }

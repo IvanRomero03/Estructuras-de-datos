@@ -52,6 +52,7 @@ int main()
 
 void readInput(std::vector<Registro> &Registros)
 {
+    //O(n)
     std::string line;
     getline(std::cin, line);
     int n, N;
@@ -76,6 +77,7 @@ void readInput(std::vector<Registro> &Registros)
 
 void sort(std::vector<Registro> &Registros)
 {
+    //O(nlogn)
     // merge sort
     std::vector<Registro> RegistrosSorted;
     if (Registros.size() <= 1)
@@ -119,6 +121,7 @@ void sort(std::vector<Registro> &Registros)
 
 int lowerBound(std::vector<Registro> &Registros, time_t fecha)
 {
+    //O(logn)
     int i = 0, j = Registros.size() - 1, m;
     while (i < j)
     {
@@ -137,6 +140,7 @@ int lowerBound(std::vector<Registro> &Registros, time_t fecha)
 
 int upperBound(std::vector<Registro> &Registros, time_t fecha)
 {
+    //O(logn)
     int i = 0, j = Registros.size(), m;
     while (i < j)
     {
@@ -155,6 +159,7 @@ int upperBound(std::vector<Registro> &Registros, time_t fecha)
 
 std::vector<Registro> getRango(std::vector<Registro> &Registros, time_t fechaInicio, time_t fechaFin)
 {
+    //O(logn)
     std::vector<Registro> rango;
     int i = lowerBound(Registros, fechaInicio);
     int j = upperBound(Registros, fechaFin);
