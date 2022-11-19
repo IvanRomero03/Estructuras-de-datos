@@ -1,0 +1,5 @@
+Recorrido DFS 
+5 6 30 12 18 24 29 11 17 23 
+Recorrido BFS
+5 11 29 6 17 12 30 23 18 24 
+Grafo Bipartita: false
