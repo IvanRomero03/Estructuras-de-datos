@@ -30,6 +30,7 @@ public:
 template <typename T>
 PriorityQueue<T>::PriorityQueue()
 {
+    // O(1)
     maxHeap = true;
 }
 
@@ -58,11 +59,13 @@ PriorityQueue<T>::PriorityQueue(std::vector<T> &v)
 template <typename T>
 PriorityQueue<T>::~PriorityQueue()
 {
+    // O(1)
 }
 
 template <typename T>
 void PriorityQueue<T>::swap(int i, int j)
 {
+    // O(1)
     T temp = list[i];
     list[i] = list[j];
     list[j] = temp;
@@ -71,6 +74,7 @@ void PriorityQueue<T>::swap(int i, int j)
 template <typename T>
 void PriorityQueue<T>::heap(int i)
 {
+    // O(log n)
     if (maxHeap)
     {
         int left = 2 * i + 1;
@@ -114,6 +118,7 @@ void PriorityQueue<T>::heap(int i)
 template <typename T>
 void PriorityQueue<T>::push(T value)
 {
+    // O(log n)
     list.push_back(value);
     int i = list.size() - 1;
     while (i > 0 && list[(i - 1) / 2] < list[i])
@@ -126,6 +131,7 @@ void PriorityQueue<T>::push(T value)
 template <typename T>
 void PriorityQueue<T>::pop()
 {
+    // O(log n)
     if (!empty())
     {
         list[0] = list[list.size() - 1];
@@ -138,6 +144,7 @@ void PriorityQueue<T>::pop()
 template <typename T>
 T PriorityQueue<T>::top()
 {
+    // O(1)
     if (!empty())
         return list[0];
     else
@@ -150,18 +157,21 @@ T PriorityQueue<T>::top()
 template <typename T>
 bool PriorityQueue<T>::empty()
 {
+    // O(1)
     return list.size() == 0;
 }
 
 template <typename T>
 int PriorityQueue<T>::size()
 {
+    // O(1)
     return list.size();
 }
 
 template <typename T>
 void PriorityQueue<T>::print()
 {
+    // O(n)
     for (int i = 0; i < (int)list.size(); i++)
         std::cout << list[i] << " ";
     std::cout << std::endl;
