@@ -106,6 +106,7 @@ T PriorityQueue<T>::top()
     {
         std::cout << "Empty queue" << std::endl;
     }
+    return list[0];
 }
 
 template <typename T>
