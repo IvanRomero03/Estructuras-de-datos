@@ -25,57 +25,68 @@ public:
 
 Ip_Value::Ip_Value()
 {
+    // O(1)
     ip = "";
     value = 0;
 }
 
 Ip_Value::Ip_Value(std::string ip, int value)
 {
+    // O(1)
     this->ip = ip;
     this->value = value;
 }
 
 Ip_Value::~Ip_Value()
 {
+    // O(1)
 }
 
 std::string Ip_Value::getIp()
 {
+    // O(1)
     return ip;
 }
 
 int Ip_Value::getValue()
 {
+    // O(1)
     return value;
 }
 
 void Ip_Value::setValue(int value)
 {
+    // O(1)
     this->value = value;
 }
 
 bool Ip_Value::operator<(const Ip_Value &other) const
 {
+    // O(1)
     return value < other.value;
 }
 
 bool Ip_Value::operator>(const Ip_Value &other) const
 {
+    // O(1)
     return value > other.value;
 }
 
 bool Ip_Value::operator==(const Ip_Value &other) const
 {
+    // O(1)
     return value == other.value;
 }
 
 bool Ip_Value::operator!=(const Ip_Value &other) const
 {
+    // O(1)
     return value != other.value;
 }
 
 std::ostream &operator<<(std::ostream &out, const Ip_Value &ip_value)
 {
+    // O(1)
     out << ip_value.ip << " " << ip_value.value;
     return out;
 }

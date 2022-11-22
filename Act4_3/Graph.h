@@ -9,6 +9,8 @@
 #include "PriorityQueue.h"
 #include "Ip_Value.h"
 
+// n: número de nodos
+// m: número de aristas
 class Graph
 {
 private:
@@ -38,18 +40,21 @@ public:
 
 Graph::Graph()
 {
+    // O(1)
     numNodes = 0;
     numEdges = 0;
 }
 
 Graph::~Graph()
 {
+    // O(1)
     graph.clear();
     nodes.clear();
 }
 
 void Graph::readNodes(std::istream &in, int n)
 {
+    // O(n)
     std::string node;
     for (int i = 0; i < n; i++)
     {
@@ -60,6 +65,7 @@ void Graph::readNodes(std::istream &in, int n)
 
 void Graph::readEdges(std::istream &in, int m)
 {
+    // O(m)
     std::string mes, dia, hora, origen, destino, peso, type;
     std::string originIp, destIp;
 
@@ -75,6 +81,7 @@ void Graph::readEdges(std::istream &in, int m)
 
 void Graph::readGraph(std::istream &in)
 {
+    // O(n + m)
     in >> numNodes >> numEdges;
     readNodes(in, numNodes);
     readEdges(in, numEdges);
@@ -82,6 +89,7 @@ void Graph::readGraph(std::istream &in)
 
 void Graph::printGraph(std::ostream &out)
 {
+    // O(n + m)
     for (auto i : nodes)
     {
         out << i << " -> ";
@@ -104,6 +112,7 @@ void Graph::printGraph(std::ostream &out)
 
 void Graph::countGraph(std::ostream &out)
 {
+    // O(n + m)
     for (auto i : nodes)
     {
         adjNum.push_back(Ip_Value(i, graph[i].size()));
@@ -113,6 +122,7 @@ void Graph::countGraph(std::ostream &out)
 
 void Graph::getTopN(int n, std::ostream &out)
 {
+    // O(n log n)
     PriorityQueue<Ip_Value> pq(adjNum);
     bootMaster = pq.top().getIp();
     for (int i = 0; i < n; i++)
@@ -124,11 +134,13 @@ void Graph::getTopN(int n, std::ostream &out)
 
 std::string Graph::getBootMaster()
 {
+    // O(1)
     return bootMaster;
 }
 
 void Graph::getMinCaminos(std::string ipOrigen)
 {
+    // O(m log n)
     PriorityQueue<std::pair<int, std::string>> pq(false);
     std::unordered_map<std::string, bool> visitados;
     std::unordered_map<std::string, int> distancias;
@@ -136,30 +148,39 @@ void Graph::getMinCaminos(std::string ipOrigen)
     visitados[ipOrigen] = true;
     distancias[ipOrigen] = 0;
     pq.push(std::make_pair(0, ipOrigen));
+    // o(m log n)
     while (!pq.empty())
     {
+        // o(m)
         for (auto i : graph[pq.top().second])
         {
+            // o(m_n)
             if (visitados[i.first] == false)
             {
+                // o(1)
                 visitados[i.first] = true;
                 distancias[i.first] = distancias[pq.top().second] + i.second;
                 minCaminos[i.first] = distancias[i.first];
+                // o(log n)
                 pq.push(std::make_pair(distancias[i.first], i.first));
             }
             else if (distancias[i.first] > distancias[pq.top().second] + i.second)
             {
+                // o(1)
                 distancias[i.first] = distancias[pq.top().second] + i.second;
                 minCaminos[i.first] = distancias[i.first];
+                // o(log n)
                 pq.push(std::make_pair(distancias[i.first], i.first));
             }
         }
+        // o(log n)
         pq.pop();
     }
 }
 
 void Graph::printMinCaminos(std::ostream &out)
 {
+    // O(n)
     for (auto i : minCaminos)
     {
         out << i.first << " " << i.second << std::endl;
@@ -168,6 +189,7 @@ void Graph::printMinCaminos(std::ostream &out)
 
 void Graph::printMaxDistancia(std::ostream &out)
 {
+    // O(n)
     int max = 0;
     std::string maxIp;
     for (auto i : minCaminos)
