@@ -33,6 +33,7 @@ public:
     std::string getBootMaster();
     void getMinCaminos(std::string ipOrigen);
     void printMinCaminos(std::ostream &out);
+    void printMaxDistancia(std::ostream &out);
 };
 
 Graph::Graph()
@@ -139,7 +140,7 @@ void Graph::getMinCaminos(std::string ipOrigen)
     {
         for (auto i : graph[pq.top().second])
         {
-            if (visitados.find(i.first) == visitados.end())
+            if (visitados[i.first] == false)
             {
                 visitados[i.first] = true;
                 distancias[i.first] = distancias[pq.top().second] + i.second;
@@ -163,6 +164,21 @@ void Graph::printMinCaminos(std::ostream &out)
     {
         out << i.first << " " << i.second << std::endl;
     }
+}
+
+void Graph::printMaxDistancia(std::ostream &out)
+{
+    int max = 0;
+    std::string maxIp;
+    for (auto i : minCaminos)
+    {
+        if (i.second > max)
+        {
+            max = i.second;
+            maxIp = i.first;
+        }
+    }
+    out << "La ip mas lejana del bootmaster es " << maxIp << " con una distancia de " << max << std::endl;
 }
 
 #endif /* _GRAPH_H_ */

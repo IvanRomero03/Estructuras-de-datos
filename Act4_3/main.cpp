@@ -18,14 +18,11 @@ int main()
 {
     std::ifstream in("bitacoraGrafos.txt");
     Graph g;
-    // std::ofstream out("out.txt");
     std::ofstream out2("grados_ips.txt");
     std::ofstream out3("mayores_grados_ips.txt");
     g.readGraph(in);
-    // g.printGraph(out);
     g.countGraph(out2);
     g.getTopN(3, out3);
-    // out.close();
     out2.close();
     out3.close();
     in.close();
@@ -34,5 +31,8 @@ int main()
     std::ofstream out4("distancia_bootmaster.txt");
     g.printMinCaminos(out4);
     out4.close();
+
+    g.printMaxDistancia(std::cout);
+
     return 0;
 }
