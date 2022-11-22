@@ -1,0 +1,5 @@
+Recorrido DFS 
+5 11 10 
+Recorrido BFS
+5 10 11 
+Grafo Bipartita: true
