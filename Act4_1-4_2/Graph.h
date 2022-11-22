@@ -32,12 +32,14 @@ public:
 
 Graph::Graph()
 {
+    //O(1)
     numNodes = 0;
     numEdges = 0;
 }
 
 Graph::~Graph()
 {
+    //O(n)
     for (auto &v : adjList)
     {
         v.clear();
@@ -47,6 +49,7 @@ Graph::~Graph()
 
 void Graph::split(std::string line, std::vector<int> &res)
 {
+    //O(n)
     int v, w, weight;
 
     v = std::stoi(line.substr(0, line.find(" ")));
@@ -71,6 +74,7 @@ void Graph::split(std::string line, std::vector<int> &res)
 
 void Graph::loadGraphList(std::istream &input)
 {
+    //O(n)
     std::string line;
     std::vector<int> res;
     while (std::getline(input, line))
@@ -83,6 +87,7 @@ void Graph::loadGraphList(std::istream &input)
 
 void Graph::loadDirWeightedGraph(std::istream &input)
 {
+    //O(n)
     std::string line;
     std::vector<int> res;
 
@@ -99,6 +104,7 @@ void Graph::loadDirWeightedGraph(std::istream &input)
 
 void Graph::print(std::ostream &output = std::cout)
 {
+    //O(n)
     for (int i = 1; i < numNodes; i++)
     {
         output << i << ": ";
@@ -112,6 +118,7 @@ void Graph::print(std::ostream &output = std::cout)
 
 void Graph::DFS(int v)
 {
+    //O(n)
     std::vector<bool> visited(numNodes, false);
     DFS_helper(v, visited);
     std::cout << std::endl;
@@ -119,6 +126,7 @@ void Graph::DFS(int v)
 
 void Graph::DFS_helper(int v, std::vector<bool> &visited)
 {
+    //O(n)
     visited[v] = true;
     std::cout << v << " ";
     for (auto i : adjList[v])
@@ -132,6 +140,7 @@ void Graph::DFS_helper(int v, std::vector<bool> &visited)
 
 void Graph::BFS(int v)
 {
+    //O(n)
     std::vector<bool> visited(numNodes, false);
     std::queue<int> q;
     q.push(v);
@@ -156,6 +165,7 @@ void Graph::BFS(int v)
 
 bool Graph::isBipartite()
 {
+    //O(n)
     std::vector<bool> visited(numNodes, false);
     std::vector<bool> color(numNodes, false);
     for (int i = 1; i < numNodes; i++)
@@ -173,6 +183,7 @@ bool Graph::isBipartite()
 
 bool Graph::isBipartite_helper(int v, std::vector<bool> &visited, std::vector<bool> &color)
 {
+    //O(n)
     visited[v] = true;
     for (auto i : adjList[v])
     {

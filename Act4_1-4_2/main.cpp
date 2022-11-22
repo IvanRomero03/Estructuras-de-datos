@@ -1,6 +1,6 @@
 /*
     Iván Alberto Romero Wells - A00833623
-    Mariano Barberi iopaP - A
+    Mariano Barberi Garza - A01571226
 
     Compilación:
         g++ -std=c++17 -Wall -o main *.cpp
