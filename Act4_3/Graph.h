@@ -110,7 +110,7 @@ void Graph::getTopN(int n, std::ostream &out)
     PriorityQueue<Ip_Value> pq(adjNum);
     for (int i = 0; i < n; i++)
     {
-        out << pq.top().ip << " " << pq.top().value << std::endl;
+        out << pq.top().getIp() << " " << pq.top().getValue() << std::endl;
         pq.pop();
     }
 }
