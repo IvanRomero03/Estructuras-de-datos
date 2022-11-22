@@ -100,7 +100,6 @@ void Graph::countGraph(std::ostream &out)
 {
     for (auto i : nodes)
     {
-        //warning
         adjNum.push_back(Ip_Value(i, graph[i].size()));
         out << i << " " << graph[i].size() << std::endl;
     }
