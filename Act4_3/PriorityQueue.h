@@ -33,7 +33,7 @@ PriorityQueue<T>::PriorityQueue()
 template <typename T>
 PriorityQueue<T>::PriorityQueue(std::vector<T> &v)
 {
-    for (int i = 0; i < v.size(); i++)
+    for (long long unsigned int i = 0; i < v.size(); i++)
     {
         list.push_back(v[i]);
     }
@@ -59,8 +59,8 @@ void PriorityQueue<T>::swap(int i, int j)
 template <typename T>
 void PriorityQueue<T>::heap(int i)
 {
-    int left = 2 * i + 1;
-    int right = 2 * i + 2;
+    long long unsigned int left = 2 * i + 1;
+    long long unsigned int right = 2 * i + 2;
     int largest = i;
     if (left < list.size() && list[left] > list[largest])
         largest = left;

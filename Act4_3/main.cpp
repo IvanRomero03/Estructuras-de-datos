@@ -6,8 +6,7 @@
         g++ -std=c++17 -Wall -o main *.cpp
 
     Ejecución:
-        main < TestCases\test0X.txt > out0X.txt
-
+        main
 */
 
 #include <iostream>
