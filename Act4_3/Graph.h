@@ -17,9 +17,11 @@ private:
     std::unordered_map<std::string, std::vector<std::pair<std::string, int>>> graph;
     std::unordered_set<std::string> nodes;
     std::vector<Ip_Value> adjNum;
+    std::unordered_map<std::string, int> minCaminos;
 
     void readNodes(std::istream &in, int n);
     void readEdges(std::istream &in, int m);
+    std::string bootMaster;
 
 public:
     Graph();
@@ -28,6 +30,9 @@ public:
     void printGraph(std::ostream &out);
     void countGraph(std::ostream &out);
     void getTopN(int n, std::ostream &out);
+    std::string getBootMaster();
+    void getMinCaminos(std::string ipOrigen);
+    void printMinCaminos(std::ostream &out);
 };
 
 Graph::Graph()
@@ -108,10 +113,55 @@ void Graph::countGraph(std::ostream &out)
 void Graph::getTopN(int n, std::ostream &out)
 {
     PriorityQueue<Ip_Value> pq(adjNum);
+    bootMaster = pq.top().getIp();
     for (int i = 0; i < n; i++)
     {
         out << pq.top().getIp() << " " << pq.top().getValue() << std::endl;
         pq.pop();
+    }
+}
+
+std::string Graph::getBootMaster()
+{
+    return bootMaster;
+}
+
+void Graph::getMinCaminos(std::string ipOrigen)
+{
+    PriorityQueue<std::pair<int, std::string>> pq(false);
+    std::unordered_map<std::string, bool> visitados;
+    std::unordered_map<std::string, int> distancias;
+
+    visitados[ipOrigen] = true;
+    distancias[ipOrigen] = 0;
+    pq.push(std::make_pair(0, ipOrigen));
+    while (!pq.empty())
+    {
+        for (auto i : graph[pq.top().second])
+        {
+            if (visitados.find(i.first) == visitados.end())
+            {
+                visitados[i.first] = true;
+                distancias[i.first] = distancias[pq.top().second] + i.second;
+                minCaminos[i.first] = distancias[i.first];
+                pq.push(std::make_pair(distancias[i.first], i.first));
+            }
+            else if (distancias[i.first] > distancias[pq.top().second] + i.second)
+            {
+                distancias[i.first] = distancias[pq.top().second] + i.second;
+                minCaminos[i.first] = distancias[i.first];
+                pq.push(std::make_pair(distancias[i.first], i.first));
+            }
+        }
+        pq.pop();
+    }
+}
+
+void Graph::printMinCaminos(std::ostream &out)
+{
+    for (auto i : minCaminos)
+    {
+        out << i.first << " " << i.second << std::endl;
     }
 }
 

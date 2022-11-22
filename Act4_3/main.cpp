@@ -29,5 +29,10 @@ int main()
     out2.close();
     out3.close();
     in.close();
+    std::cout << "Boot Master: " << g.getBootMaster() << std::endl;
+    g.getMinCaminos(g.getBootMaster());
+    std::ofstream out4("distancia_bootmaster.txt");
+    g.printMinCaminos(out4);
+    out4.close();
     return 0;
 }

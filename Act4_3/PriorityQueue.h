@@ -9,12 +9,14 @@ template <typename T>
 class PriorityQueue
 {
 private:
+    bool maxHeap;
     std::vector<T> list;
     void swap(int i, int j);
     void heap(int i);
 
 public:
     PriorityQueue();
+    PriorityQueue(bool maxHeap);
     PriorityQueue(std::vector<T> &v);
     ~PriorityQueue();
     void push(T value);
@@ -28,11 +30,21 @@ public:
 template <typename T>
 PriorityQueue<T>::PriorityQueue()
 {
+    maxHeap = true;
+}
+
+template <typename T>
+PriorityQueue<T>::PriorityQueue(bool maxHeap)
+{
+    // O(1)
+    this->maxHeap = maxHeap;
 }
 
 template <typename T>
 PriorityQueue<T>::PriorityQueue(std::vector<T> &v)
 {
+    // O(n)
+    this->maxHeap = true;
     for (long long unsigned int i = 0; i < v.size(); i++)
     {
         list.push_back(v[i]);
@@ -59,17 +71,43 @@ void PriorityQueue<T>::swap(int i, int j)
 template <typename T>
 void PriorityQueue<T>::heap(int i)
 {
-    long long unsigned int left = 2 * i + 1;
-    long long unsigned int right = 2 * i + 2;
-    int largest = i;
-    if (left < list.size() && list[left] > list[largest])
-        largest = left;
-    if (right < list.size() && list[right] > list[largest])
-        largest = right;
-    if (largest != i)
+    if (maxHeap)
     {
-        swap(i, largest);
-        heap(largest);
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        int largest = i;
+        if (left < list.size() && list[left] > list[largest])
+        {
+            largest = left;
+        }
+        if (right < list.size() && list[right] > list[largest])
+        {
+            largest = right;
+        }
+        if (largest != i)
+        {
+            swap(i, largest);
+            heap(largest);
+        }
+    }
+    else
+    {
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        int smallest = i;
+        if (left < list.size() && list[left] < list[smallest])
+        {
+            smallest = left;
+        }
+        if (right < list.size() && list[right] < list[smallest])
+        {
+            smallest = right;
+        }
+        if (smallest != i)
+        {
+            swap(i, smallest);
+            heap(smallest);
+        }
     }
 }
 
