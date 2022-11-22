@@ -76,11 +76,11 @@ void PriorityQueue<T>::heap(int i)
         int left = 2 * i + 1;
         int right = 2 * i + 2;
         int largest = i;
-        if (left < list.size() && list[left] > list[largest])
+        if (left < (int)list.size() && list[left] > list[largest])
         {
             largest = left;
         }
-        if (right < list.size() && list[right] > list[largest])
+        if (right < (int)list.size() && list[right] > list[largest])
         {
             largest = right;
         }
@@ -95,11 +95,11 @@ void PriorityQueue<T>::heap(int i)
         int left = 2 * i + 1;
         int right = 2 * i + 2;
         int smallest = i;
-        if (left < list.size() && list[left] < list[smallest])
+        if (left < (int)list.size() && list[left] < list[smallest])
         {
             smallest = left;
         }
-        if (right < list.size() && list[right] < list[smallest])
+        if (right < (int)list.size() && list[right] < list[smallest])
         {
             smallest = right;
         }
@@ -162,7 +162,7 @@ int PriorityQueue<T>::size()
 template <typename T>
 void PriorityQueue<T>::print()
 {
-    for (int i = 0; i < list.size(); i++)
+    for (int i = 0; i < (int)list.size(); i++)
         std::cout << list[i] << " ";
     std::cout << std::endl;
 }
