@@ -35,6 +35,7 @@ public:
 
 HashTable::HashTable(int maxSize)
 {
+    // O(1)
     this->size = 0;
     this->maxSize = maxSize;
     this->table.resize(maxSize);
@@ -42,6 +43,7 @@ HashTable::HashTable(int maxSize)
 
 int HashTable::getHashIndex(std::string ip)
 {
+    // O(1)
     int sum = 0;
     for (int i = 0; i < (int)ip.length(); i++)
     {
@@ -54,11 +56,13 @@ int HashTable::getHashIndex(std::string ip)
 
 int HashTable::getSize()
 {
+    // O(1)
     return size;
 }
 
 void HashTable::print()
 {
+    // O(n)
     for (auto i : table)
     {
         if (i.getStatus() == 1)
@@ -70,6 +74,7 @@ void HashTable::print()
 
 void HashTable::add(std::string ip)
 {
+    // O(n)
     if (size == maxSize)
     {
         throw std::out_of_range("Limit of records reached");
@@ -95,6 +100,7 @@ void HashTable::add(std::string ip)
             int i = 1;
             // Encontrando el siguiente espacio libre usando la exploración cuadrática (index + i^2) hasta encontrar un espacio vacío
             // https://www.geeksforgeeks.org/quadratic-probing-in-hashing/
+            // O(n)
             while (table[(index + i * i) % maxSize].getStatus() == 1)
             {
                 i++;
@@ -108,6 +114,7 @@ void HashTable::add(std::string ip)
 }
 int HashTable::findIndex(std::string ip)
 {
+    // O(n)
     int index = getHashIndex(ip);
     HashNode nodeAt = table[index];
 
@@ -120,6 +127,7 @@ int HashTable::findIndex(std::string ip)
         else
         {
             // colisión
+            // O(n)
             for (int i = 0; i < nodeAt.getOverflowSize(); i++)
             {
                 if (table[nodeAt.getOverflowAt(i)].getIp() == ip)
@@ -135,11 +143,13 @@ int HashTable::findIndex(std::string ip)
 
 NodeInfo HashTable::getDataAt(int index)
 {
+    // O(1)
     return table[index].getData();
 }
 
 void HashTable::addOut(std::string ip)
 {
+    // O(n)
     int index = findIndex(ip);
     if (index != -1)
     {
@@ -153,6 +163,7 @@ void HashTable::addOut(std::string ip)
 
 void HashTable::addIn(std::string ip)
 {
+    // O(n)
     int index = findIndex(ip);
     if (index != -1)
     {
@@ -166,6 +177,7 @@ void HashTable::addIn(std::string ip)
 
 void HashTable::clearData(std::string ip)
 {
+    // O(n)
     int index = findIndex(ip);
     if (index != -1)
     {
@@ -179,6 +191,7 @@ void HashTable::clearData(std::string ip)
 
 void HashTable::remove(std::string ip)
 {
+    // O(n)
     int index = findIndex(ip);
     if (index != -1)
     {
@@ -194,6 +207,7 @@ void HashTable::remove(std::string ip)
 
 void HashTable::readEdges(std::istream &in, int m)
 {
+    // O(n)
     std::string mes, dia, hora, origen, destino, peso, type;
     std::string originIp, destIp;
 
@@ -211,6 +225,7 @@ void HashTable::readEdges(std::istream &in, int m)
 
 void HashTable::readFromFile(std::istream &in)
 {
+    // O(n^2 + mn)
     std::string n, m;
     in >> n >> m;
     for (int i = 0; i < std::stoi(n); i++)
@@ -225,11 +240,13 @@ void HashTable::readFromFile(std::istream &in)
 
 int HashTable::getColisions()
 {
+    // O(1)
     return colisions;
 }
 
 void HashTable::getIPSummary(std::string ip)
 {
+    // O(n)
     int index = findIndex(ip);
     if (index != -1)
     {

@@ -31,6 +31,7 @@ public:
 
 NodeInfo::NodeInfo()
 {
+    // O(1)
     this->ip = "";
     this->outCount = 0;
     this->inCount = 0;
@@ -38,21 +39,25 @@ NodeInfo::NodeInfo()
 
 NodeInfo::NodeInfo(std::string ip)
 {
+    // O(1)
     this->ip = ip;
 }
 
 std::string NodeInfo::getIp()
 {
+    // O(1)
     return ip;
 }
 
 void NodeInfo::setIp(std::string ip)
 {
+    // O(1)
     this->ip = ip;
 }
 
 std::vector<std::string> NodeInfo::getOut()
 {
+    // O(nlogn)
     PriorityQueue<std::string> temp = out;
     std::vector<std::string> outVector;
     while (!temp.empty())
@@ -65,6 +70,7 @@ std::vector<std::string> NodeInfo::getOut()
 
 void NodeInfo::setOut(std::vector<std::string> out)
 {
+    // O(nlogn)
     for (auto ip : out)
     {
         this->out.push(ip);
@@ -73,17 +79,20 @@ void NodeInfo::setOut(std::vector<std::string> out)
 
 void NodeInfo::addOut(std::string ip)
 {
+    // O(logn)
     out.push(ip);
     outCount++;
 }
 
 int NodeInfo::getOutSize()
 {
+    // O(1)
     return outCount;
 }
 
 std::vector<std::string> NodeInfo::getIn()
 {
+    // O(nlogn)
     PriorityQueue<std::string> temp = in;
     std::vector<std::string> inVector;
     while (!temp.empty())
@@ -96,17 +105,20 @@ std::vector<std::string> NodeInfo::getIn()
 
 void NodeInfo::addIn(std::string ip)
 {
+    // O(logn)
     in.push(ip);
     inCount++;
 }
 
 int NodeInfo::getInSize()
 {
+    // O(1)
     return inCount;
 }
 
 std::ostream &operator<<(std::ostream &out, const NodeInfo &nodeInfo)
 {
+    // O(nlogn)
     out << "IP: " << nodeInfo.ip << std::endl;
     out << "Out: " << std::endl;
     PriorityQueue<std::string> temp = nodeInfo.out;
