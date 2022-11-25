@@ -48,7 +48,7 @@ int HashTable::getHashIndex(std::string ip)
         // sumar el valor numérico ASCII de cada caracter para pasar de string a int
         sum += ip[i];
     }
-    // utilizando el método de residuales (llave % tamaño) ** Tamaño debe ser primo **
+    // utilizando el método de residuales (llave % tamaño) ** Tamaño debe ser primo (mientras más grande, posiblemente menores colisiones) **
     return sum % maxSize;
 }
 
