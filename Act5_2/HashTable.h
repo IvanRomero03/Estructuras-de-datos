@@ -35,9 +35,9 @@ public:
 
 HashTable::HashTable(int maxSize)
 {
-    maxSize = this->maxSize;
-    size = 0;
-    table.resize(maxSize);
+    this->size = 0;
+    this->maxSize = maxSize;
+    this->table.resize(maxSize);
 }
 
 int HashTable::getHashIndex(std::string ip)
@@ -204,8 +204,8 @@ void HashTable::readEdges(std::istream &in, int m)
         originIp = origen.substr(0, origen.find(":"));
         destIp = destino.substr(0, destino.find(":"));
 
-        addOut(originIp);
-        addIn(destIp);
+        addOut(destIp);
+        table[findIndex(originIp)].addIn(destIp);
     }
 }
 
