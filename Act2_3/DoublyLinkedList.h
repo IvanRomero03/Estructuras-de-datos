@@ -571,23 +571,22 @@ template <typename T>
 ListNode<T> *DoublyLinkedList<T>::BS(ListNode<T> *start, ListNode<T> *end, T value)
 {
     // O(n)
-    
-    if (start == end)
+    if (start->getNext() == end)
     {
         return start;
     }
     ListNode<T> *mid = getMiddleNode(start, end);
-    if (mid->getData() < value)
+    if (mid->getData() == value)
     {
-        return BS(mid->getNext(), end, value);
+        return mid;
     }
     else if (mid->getData() > value)
     {
-        return BS(start, mid, value);
+        return BS(start, mid->getPrev(), value);
     }
     else
     {
-        return mid->getNext();
+        return BS(mid->getNext(), end, value);
     }
 }
 
@@ -603,7 +602,7 @@ DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
     DoublyLinkedList<T> list;
     ListNode<T> *temp = startNode;
     std::cout << "antes while" << std::endl;
-    while (temp != endNode)
+    while (temp != endNode->getNext())
     {
         list.addLast(temp->getData());
         temp = temp->getNext();

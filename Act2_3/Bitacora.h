@@ -78,7 +78,7 @@ void Bitacora::busquedaRango(Registro start, Registro end, std::ofstream &result
     ListNode<Registro> *current = rango.getHead();
     while (current != NULL)
     {
-        resultado_busqueda << current << std::endl;
+        resultado_busqueda << current->getData() << std::endl;
         current = current->getNext();
     }
     if (rango.getHead()->getData() != start)
