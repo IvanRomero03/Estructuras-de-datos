@@ -78,14 +78,11 @@ void Bitacora::printTopN(int n, std::ofstream &ips_con_mayor_acceso)
 {
     // O(n)
     Registro_Count Top;
-    count_ips.print();
     for (int i = 0; i < n; i++)
     {
         std::cout << "Top " << i + 1 << ": ";
-        Top = count_ips.getBiggest();
+        Top = count_ips.popBiggest();
         std::cout << Top.getRegistro().getIP() << " " << Top.getCount() << std::endl;
-        ips_con_mayor_acceso << Top.getRegistro().getIP() << " " << Top.getCount() << std::endl;
-        count_ips.deleteNode(Top);
     }
 }
 

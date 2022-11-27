@@ -14,7 +14,7 @@ private:
     int size;
     Node<Registro_Count> *root;
     void clear_helper(Node<Registro_Count> *node);
-    void insert_helper(Node<Registro_Count> *node, Registro_Count &data);
+    void insert_helper(Node<Registro_Count> *node, Registro_Count data);
     void remove_helper(Node<Registro_Count> *node, Registro_Count data);
     void delete_node(Node<Registro_Count> *node);
     void print_helper(Node<Registro_Count> *node);
@@ -29,7 +29,7 @@ public:
     void print();
     bool find(Registro_Count val);
     int getSize();
-    Registro_Count getBiggest();
+    Registro_Count popBiggest();
 };
 
 BinarySearchTree::BinarySearchTree()
@@ -75,7 +75,7 @@ void BinarySearchTree::insert(Registro_Count val)
     insert_helper(root, val);
 }
 
-void BinarySearchTree::insert_helper(Node<Registro_Count> *node, Registro_Count &data)
+void BinarySearchTree::insert_helper(Node<Registro_Count> *node, Registro_Count data)
 {
     // O(log n)
     if (node == nullptr)
@@ -86,11 +86,29 @@ void BinarySearchTree::insert_helper(Node<Registro_Count> *node, Registro_Count 
     }
     if (data < node->getData())
     {
-        insert_helper(node->getLeft(), data);
+        if (node->getLeft() == nullptr)
+        {
+            node->setLeft(new Node<Registro_Count>(data));
+            size++;
+            return;
+        }
+        else
+        {
+            insert_helper(node->getLeft(), data);
+        }
     }
     else
     {
-        insert_helper(node->getRight(), data);
+        if (node->getRight() == nullptr)
+        {
+            node->setRight(new Node<Registro_Count>(data));
+            size++;
+            return;
+        }
+        else
+        {
+            insert_helper(node->getRight(), data);
+        }
     }
 }
 
@@ -128,33 +146,6 @@ void BinarySearchTree::remove_helper(Node<Registro_Count> *node, Registro_Count 
             remove_helper(node->getLeft(), data);
             return;
         }
-        // if (node->getLeft() == nullptr && node->getRight() == nullptr)
-        // {
-        //     delete node;
-        //     node = nullptr;
-        // }
-        // else if (node->getLeft() == nullptr)
-        // {
-        //     Node<Registro_Count> *temp = node;
-        //     node = node->getRight();
-        //     delete temp;
-        // }
-        // else if (node->getRight() == nullptr)
-        // {
-        //     Node<Registro_Count> *temp = node;
-        //     node = node->getLeft();
-        //     delete temp;
-        // }
-        // else
-        // {
-        //     Node<Registro_Count> *temp = node->getRight();
-        //     while (temp->getLeft() != nullptr)
-        //     {
-        //         temp = temp->getLeft();
-        //     }
-        //     node->setData(temp->getData());
-        //     remove_helper(node->getRight(), temp->getData());
-        // }
     }
     std::cout << "Elemento eliminado" << std::endl;
 }
@@ -246,15 +237,28 @@ int BinarySearchTree::getSize()
     return size;
 }
 
-Registro_Count BinarySearchTree::getBiggest()
+Registro_Count BinarySearchTree::popBiggest()
 {
     // O(log n)
     Node<Registro_Count> *temp = root;
+    Node<Registro_Count> *parent = nullptr;
     while (temp->getRight() != nullptr)
     {
+        parent = temp;
         temp = temp->getRight();
     }
-    return temp->getData();
+    Registro_Count data = temp->getData();
+    if (parent == nullptr)
+    {
+        root = temp->getLeft();
+    }
+    else
+    {
+        parent->setRight(temp->getLeft());
+    }
+    delete temp;
+    size--;
+    return data;
 }
 
 #endif // _BIN_SEARCH_TREE_H
