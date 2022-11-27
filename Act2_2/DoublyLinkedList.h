@@ -274,18 +274,18 @@ void DoublyLinkedList<T>::print()
     std::cout << std::endl;
 }
 
-template <class T>
-void DoublyLinkedList<T>::operator=(DoublyLinkedList<T> &list)
-{
-    // O(n)
-    clear();
-    Node *temp = list.head;
-    while (temp != nullptr)
-    {
-        addLast(temp->val);
-        temp = temp->next;
-    }
-}
+// template <class T>
+// void DoublyLinkedList<T>::operator=(DoublyLinkedList<T> &list)
+// {
+//     // O(n)
+//     clear();
+//     Node *temp = list.head;
+//     while (temp != nullptr)
+//     {
+//         addLast(temp->val);
+//         temp = temp->next;
+//     }
+// }
 
 template <class T>
 void DoublyLinkedList<T>::operator=(std::vector<T> &list)

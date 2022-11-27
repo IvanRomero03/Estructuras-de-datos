@@ -4,235 +4,155 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "ListNode.h"
 
-template <class T>
+template <typename T>
 class DoublyLinkedList
 {
 private:
-    struct Node
-    {
-        T val;
-        Node *next;
-        Node *prev;
-        Node(T val)
-        {
-            this->val = val;
-            next = nullptr;
-            prev = nullptr;
-        }
-    };
-    Node *head;
-    Node *tail;
+    ListNode<T> *head;
+    ListNode<T> *tail;
     int size;
-    // FIXME: Ver si no ocupa std:: // si ocupaba jaja
-    void split(int index, DoublyLinkedList<T> &l1, DoublyLinkedList<T> &l2);
-    DoublyLinkedList<T> mergeSortedLists(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2);
-    Node *BS(Node *start, Node *end, T val)
-    {
-        // Está definido aquí porque da errores si lo pongo afuera
-        // O(n) en tiempo de ejecución, O(log n) comparaciones
-        if (start == end)
-        {
-            return start;
-        }
-        Node *slow = start;
-        Node *fast = start;
-
-        while (fast != end)
-        {
-            fast = fast->next;
-            if (fast != end)
-            {
-                slow = slow->next;
-                fast = fast->next;
-            }
-        }
-        Node *mid = slow;
-        if (mid->val == val)
-        {
-            return mid;
-        }
-        if (mid->val < val)
-        {
-            return BS(mid->next, end, val);
-        }
-        else
-        {
-            return BS(start, mid, val);
-        }
-    }
+    void split(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2, int index);
+    DoublyLinkedList<T> merge(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2);
+    ListNode<T> *getMiddleNode(ListNode<T> *start, ListNode<T> *end);
+    ListNode<T> *lowerBound(ListNode<T> *start, ListNode<T> *end, T value);
+    ListNode<T> *upperBound(ListNode<T> *start, ListNode<T> *end, T value);
 
 public:
     DoublyLinkedList();
+    DoublyLinkedList(std::vector<T> &v);
     ~DoublyLinkedList();
-    void addFirst(T val);
-    void addLast(T val);
-    bool deleteData(T val);
+    void addFirst(T value);
+    void addLast(T value);
+    bool deleteData(T value);
     bool deleteAt(int index);
     T getData(int index);
     void updateData(T pastVal, T newVal);
     void updateAt(int index, T newVal);
     int findData(T val);
     int getSize();
+    void setSize(int size);
     void print();
-    void operator=(DoublyLinkedList<T> &list);
+    // void operator=(DoublyLinkedList<T> &list);
     void operator=(std::vector<T> &list);
     void operator=(DoublyLinkedList<T> list);
     void clear();
     void sort();
     void duplicate();
     void removeDuplicates();
+    void reverse();
+    void setHead(ListNode<T> *head);
+    void setTail(ListNode<T> *tail);
     DoublyLinkedList<T> getReversedSublist(int start, int end);
     DoublyLinkedList<T> getRange(T start, T end);
-    class iterator
-    {
-    private:
-        Node *current;
-
-    public:
-        iterator(Node *current)
-        {
-            this->current = current;
-        }
-        iterator operator++()
-        {
-            current = current->next;
-            return *this;
-        }
-        iterator operator++(int)
-        {
-            iterator temp = *this;
-            current = current->next;
-            return temp;
-        }
-        iterator operator--()
-        {
-            current = current->prev;
-            return *this;
-        }
-        iterator operator--(int)
-        {
-            iterator temp = *this;
-            current = current->prev;
-            return temp;
-        }
-        bool operator==(const iterator &other) const
-        {
-            return current == other.current;
-        }
-        bool operator!=(const iterator &other) const
-        {
-            return current != other.current;
-        }
-        T &operator*()
-        {
-            return current->val;
-        }
-    };
-    iterator begin()
-    {
-        return iterator(head);
-    }
-    iterator end()
-    {
-        return iterator(nullptr);
-    }
+    ListNode<T> *getHead();
+    ListNode<T> *getTail();
 };
 
-template <class T>
+template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList()
 {
     // O(1)
-    head = nullptr;
-    tail = nullptr;
+    head = NULL;
+    tail = NULL;
     size = 0;
 }
 
-template <class T>
-void DoublyLinkedList<T>::clear()
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(std::vector<T> &v)
 {
     // O(n)
-    Node *temp = head;
-    while (temp != nullptr)
-    {
-        head = head->next;
-        delete temp;
-        temp = head;
-    }
-    head = nullptr;
-    tail = nullptr;
+    head = NULL;
+    tail = NULL;
     size = 0;
+    for (long long unsigned int i = 0; i < v.size(); i++)
+    {
+        addLast(v[i]);
+    }
 }
 
-template <class T>
+template <typename T>
 DoublyLinkedList<T>::~DoublyLinkedList()
 {
     // O(n)
-    clear();
+    ListNode<T> *temp = head;
+    while (temp != NULL)
+    {
+        head++;
+        delete temp;
+        temp = head;
+    }
 }
 
-template <class T>
-void DoublyLinkedList<T>::addFirst(T val)
+template <typename T>
+void DoublyLinkedList<T>::addFirst(T value)
 {
     // O(1)
-    Node *newNode = new Node(val);
-    newNode->next = head;
-    newNode->prev = nullptr;
-    if (head != nullptr)
+    ListNode<T> *node = new ListNode<T>(value);
+    if (head == NULL)
     {
-        head->prev = newNode;
+        head = node;
+        tail = node;
     }
-    head = newNode;
-    if (tail == nullptr)
+    else
     {
-        tail = newNode;
+        node->next = head;
+        head->prev = node;
+        head = node;
     }
     size++;
 }
 
-template <class T>
-void DoublyLinkedList<T>::addLast(T val)
+template <typename T>
+void DoublyLinkedList<T>::addLast(T value)
 {
     // O(1)
-    Node *newNode = new Node(val);
-    newNode->next = nullptr;
-    newNode->prev = tail;
-    if (tail != nullptr)
+    ListNode<T> *node = new ListNode<T>(value);
+    if (head == NULL)
     {
-        tail->next = newNode;
+        head = node;
+        tail = node;
     }
-    tail = newNode;
-    if (head == nullptr)
+    else
     {
-        head = newNode;
+        tail->setNext(node);
+        node->setPrev(tail);
+        tail = node;
     }
     size++;
 }
 
-template <class T>
-bool DoublyLinkedList<T>::deleteData(T val)
+template <typename T>
+bool DoublyLinkedList<T>::deleteData(T value)
 {
     // O(n)
-    Node *temp = head;
-    while (temp != nullptr)
+    ListNode<T> *temp = head;
+    while (temp != NULL)
     {
-        if (temp->val == val)
+        if (temp->data == value)
         {
-            if (temp->prev != nullptr)
+            if (temp == head)
+            {
+                head = head->next;
+                if (head != NULL)
+                {
+                    head->prev = NULL;
+                }
+                else
+                {
+                    tail = NULL;
+                }
+            }
+            else if (temp == tail)
+            {
+                tail = tail->prev;
+                tail->next = NULL;
+            }
+            else
             {
                 temp->prev->next = temp->next;
-            }
-            else
-            {
-                head = temp->next;
-            }
-            if (temp->next != nullptr)
-            {
                 temp->next->prev = temp->prev;
-            }
-            else
-            {
-                tail = temp->prev;
             }
             delete temp;
             size--;
@@ -243,7 +163,7 @@ bool DoublyLinkedList<T>::deleteData(T val)
     return false;
 }
 
-template <class T>
+template <typename T>
 bool DoublyLinkedList<T>::deleteAt(int index)
 {
     // O(n)
@@ -251,65 +171,76 @@ bool DoublyLinkedList<T>::deleteAt(int index)
     {
         return false;
     }
-    Node *temp = head;
-    for (int i = 0; i < index; i++)
-    {
-        temp = temp->next;
-    }
-    if (temp->prev != nullptr)
-    {
-        temp->prev->next = temp->next;
-    }
     else
     {
-        head = temp->next;
+        ListNode<T> *temp = head;
+        for (int i = 0; i < index; i++)
+        {
+            temp = temp->next;
+        }
+        if (temp == head)
+        {
+            head = head->next;
+            if (head != NULL)
+            {
+                head->prev = NULL;
+            }
+            else
+            {
+                tail = NULL;
+            }
+        }
+        else if (temp == tail)
+        {
+            tail = tail->prev;
+            tail->next = NULL;
+        }
+        else
+        {
+            temp->prev->next = temp->next;
+            temp->next->prev = temp->prev;
+        }
+        delete temp;
+        size--;
+        return true;
     }
-    if (temp->next != nullptr)
-    {
-        temp->next->prev = temp->prev;
-    }
-    else
-    {
-        tail = temp->prev;
-    }
-    delete temp;
-    size--;
-    return true;
 }
 
-template <class T>
+template <typename T>
 T DoublyLinkedList<T>::getData(int index)
 {
     // O(n)
     if (index < 0 || index >= size)
     {
-        return T();
+        return -1;
     }
-    Node *temp = head;
-    for (int i = 0; i < index; i++)
+    else
     {
-        temp = temp->next;
+        ListNode<T> *temp = head;
+        for (int i = 0; i < index; i++)
+        {
+            temp = temp->next;
+        }
+        return temp->data;
     }
-    return temp->val;
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::updateData(T pastVal, T newVal)
 {
     // O(n)
-    Node *temp = head;
-    while (temp != nullptr)
+    ListNode<T> *temp = head;
+    while (temp != NULL)
     {
-        if (temp->val == pastVal)
+        if (temp->data == pastVal)
         {
-            temp->val = newVal;
-            return;
+            temp->data = newVal;
         }
         temp = temp->next;
     }
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::updateAt(int index, T newVal)
 {
     // O(n)
@@ -317,23 +248,26 @@ void DoublyLinkedList<T>::updateAt(int index, T newVal)
     {
         return;
     }
-    Node *temp = head;
-    for (int i = 0; i < index; i++)
+    else
     {
-        temp = temp->next;
+        ListNode<T> *temp = head;
+        for (int i = 0; i < index; i++)
+        {
+            temp = temp->next;
+        }
+        temp->data = newVal;
     }
-    temp->val = newVal;
 }
 
-template <class T>
+template <typename T>
 int DoublyLinkedList<T>::findData(T val)
 {
     // O(n)
-    Node *temp = head;
+    ListNode<T> *temp = head;
     int index = 0;
-    while (temp != nullptr)
+    while (temp != NULL)
     {
-        if (temp->val == val)
+        if (temp->data == val)
         {
             return index;
         }
@@ -343,270 +277,347 @@ int DoublyLinkedList<T>::findData(T val)
     return -1;
 }
 
-template <class T>
+template <typename T>
 int DoublyLinkedList<T>::getSize()
 {
     // O(1)
     return size;
 }
 
-template <class T>
+template <typename T>
+void DoublyLinkedList<T>::setSize(int size)
+{
+    // O(1)
+    this->size = size;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::clear()
+{
+    // O(n)
+    ListNode<T> *temp = head;
+    while (temp != NULL)
+    {
+        head = head->getNext();
+        delete temp;
+        temp = head;
+    }
+    size = 0;
+}
+
+template <typename T>
+ListNode<T> *DoublyLinkedList<T>::getHead()
+{
+    // O(1)
+    return head;
+}
+
+template <typename T>
+ListNode<T> *DoublyLinkedList<T>::getTail()
+{
+    // O(1)
+    return tail;
+}
+
+template <typename T>
 void DoublyLinkedList<T>::print()
 {
     // O(n)
-    Node *temp = head;
-    while (temp != nullptr)
+    ListNode<T> *temp = head;
+    while (temp != NULL)
     {
-        std::cout << temp->val << " ";
-        temp = temp->next;
+        std::cout << temp->getData() << " ";
+        temp = temp->getNext();
     }
     std::cout << std::endl;
 }
 
-template <class T>
-void DoublyLinkedList<T>::operator=(DoublyLinkedList<T> &list)
+template <typename T>
+void DoublyLinkedList<T>::operator=(std::vector<T> &vec)
 {
     // O(n)
     clear();
-    Node *temp = list.head;
-    while (temp != nullptr)
+    for (int i = 0; i < vec.size(); i++)
     {
-        addLast(temp->val);
-        temp = temp->next;
+        this->addLast(vec[i]);
     }
 }
 
-template <class T>
-void DoublyLinkedList<T>::operator=(std::vector<T> &list)
-{
-    // O(n)
-    clear();
-    for (int i = 0; i < list.size(); i++)
-    {
-        addLast(list[i]);
-    }
-}
-
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::operator=(DoublyLinkedList<T> list)
 {
     // O(n)
+    std::cout << "operator=" << std::endl;
     clear();
-    Node *temp = list.head;
-    while (temp != nullptr)
+    std::cout << "cleared" << std::endl;
+    ListNode<T> *temp = list.getHead();
+    std::cout << "got head" << std::endl;
+    while (temp != NULL)
     {
-        addLast(temp->val);
-        temp = temp->next;
+        std::cout << "adding " << temp->getData() << std::endl;
+        addLast(temp->getData());
+        std::cout << "added" << std::endl;
+        temp = temp->getNext();
+        std::cout << "got next" << std::endl;
     }
+    std::cout << "done =" << std::endl;
 }
 
-template <class T>
-void DoublyLinkedList<T>::split(int index, DoublyLinkedList<T> &l1, DoublyLinkedList<T> &l2)
+template <typename T>
+void DoublyLinkedList<T>::split(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2, int index)
 {
     // O(n)
-    if (index < 0 || index >= size)
-    {
-        return;
-    }
-    Node *temp = head;
+    list1.clear();
+    list2.clear();
+    ListNode<T> *temp = head;
     for (int i = 0; i < index; i++)
     {
-        l1.addLast(temp->val);
-        temp = temp->next;
+        list1.addLast(temp->getData());
+        temp = temp->getNext();
     }
-    while (temp != nullptr)
+    while (temp != NULL)
     {
-        l2.addLast(temp->val);
-        temp = temp->next;
+        list2.addLast(temp->getData());
+        temp = temp->getNext();
     }
 }
 
-template <class T>
-DoublyLinkedList<T> DoublyLinkedList<T>::mergeSortedLists(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2)
+template <typename T>
+DoublyLinkedList<T> DoublyLinkedList<T>::merge(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2)
 {
     // O(n)
     DoublyLinkedList<T> list;
-    Node *temp1 = list1.head;
-    Node *temp2 = list2.head;
-    while (temp1 != nullptr && temp2 != nullptr)
+    ListNode<T> *temp1 = list1.getHead();
+    ListNode<T> *temp2 = list2.getHead();
+    while (temp1 != NULL && temp2 != NULL)
     {
-        if (temp1->val < temp2->val)
+        if (temp1->getData() < temp2->getData())
         {
-            list.addLast(temp1->val);
-            temp1 = temp1->next;
+            list.addLast(temp1->getData());
+            temp1 = temp1->getNext();
         }
         else
         {
-            list.addLast(temp2->val);
-            temp2 = temp2->next;
+            list.addLast(temp2->getData());
+            temp2 = temp2->getNext();
         }
     }
-    while (temp1 != nullptr)
+    while (temp1 != NULL)
     {
-        list.addLast(temp1->val);
-        temp1 = temp1->next;
+        list.addLast(temp1->getData());
+        temp1 = temp1->getNext();
     }
-    while (temp2 != nullptr)
+    while (temp2 != NULL)
     {
-        list.addLast(temp2->val);
-        temp2 = temp2->next;
+        list.addLast(temp2->getData());
+        temp2 = temp2->getNext();
     }
     return list;
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::sort()
 {
-    // O(nlogn)
-    if (size <= 1)
+    // O(n log n)
+    // Merge Sort
+    if (size > 1)
     {
-        return;
+        std::cout << "Sorting..." << std::endl;
+        DoublyLinkedList<T> list1;
+        DoublyLinkedList<T> list2;
+        int index = size / 2;
+        std::cout << "Splitting..." << std::endl;
+        split(list1, list2, index);
+        std::cout << "sizes: 1) " << list1.getSize() << " 2) " << list2.getSize() << std::endl;
+        std::cout << "Sorting list 1..." << list1.getSize() << std::endl;
+        list1.sort();
+        std::cout << "Sorting list 2..." << list2.getSize() << std::endl;
+        list2.sort();
+        std::cout << "Merging..." << std::endl;
+        DoublyLinkedList<T> list = merge(list1, list2);
+        list.print();
+        this->operator=(list);
+        std::cout << "Done!" << std::endl;
     }
-    DoublyLinkedList<T> l1, l2;
-    split(size / 2, l1, l2);
-    l1.sort();
-    l2.sort();
-    *this = mergeSortedLists(l1, l2);
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::duplicate()
 {
     // O(n)
-    Node *temp = head;
-    while (temp != nullptr)
+    ListNode<T> *temp = head;
+    while (temp != NULL)
     {
-        Node *newNode = new Node(temp->val);
+        ListNode<T> *newNode = new ListNode<T>(temp->data);
         newNode->next = temp->next;
         temp->next = newNode;
         newNode->prev = temp;
-        if (newNode->next != nullptr)
+        if (newNode->next != NULL)
         {
             newNode->next->prev = newNode;
-        }
-        else
-        {
-            tail = newNode;
         }
         temp = newNode->next;
         size++;
     }
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::removeDuplicates()
 {
     // O(n)
-    Node *temp = head;
-    while (temp != nullptr)
+    ListNode<T> *temp = head;
+    while (temp != NULL)
     {
-        if (temp->next != nullptr && temp->val == temp->next->val)
+        ListNode<T> *temp2 = temp->next;
+        while (temp2 != NULL)
         {
-            Node *temp2 = temp->next;
-            temp->next = temp->next->next;
-            if (temp->next != nullptr)
+            if (temp->data == temp2->data)
             {
-                temp->next->prev = temp;
+                temp2->prev->next = temp2->next;
+                if (temp2->next != NULL)
+                {
+                    temp2->next->prev = temp2->prev;
+                }
+                ListNode<T> *temp3 = temp2;
+                temp2 = temp2->next;
+                delete temp3;
+                size--;
             }
             else
             {
-                tail = temp;
+                temp2 = temp2->next;
             }
-            delete temp2;
-            size--;
         }
-        else
-        {
-            temp = temp->next;
-        }
+        temp = temp->next;
     }
 }
 
-template <class T>
+template <typename T>
+void DoublyLinkedList<T>::reverse()
+{
+    // O(n)
+    ListNode<T> *temp = head;
+    while (temp != NULL)
+    {
+        ListNode<T> *temp2 = temp->next;
+        temp->next = temp->prev;
+        temp->prev = temp2;
+        temp = temp2;
+    }
+    temp = head;
+    head = tail;
+    tail = temp;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::setHead(ListNode<T> *head)
+{
+    // O(1)
+    this->head = head;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::setTail(ListNode<T> *tail)
+{
+    // O(1)
+    this->tail = tail;
+}
+
+template <typename T>
 DoublyLinkedList<T> DoublyLinkedList<T>::getReversedSublist(int start, int end)
 {
     // O(n)
     DoublyLinkedList<T> list;
-    Node *temp = tail;
-    for (int i = size - 1; i >= 0; i--)
+    ListNode<T> *temp = head;
+    for (int i = 0; i < start; i++)
     {
-        if (i >= start && i <= end)
-        {
-            list.addLast(temp->val);
-        }
-        temp = temp->prev;
+        temp = temp->next;
+    }
+    for (int i = start; i <= end; i++)
+    {
+        list.insertFront(temp->data);
+        temp = temp->next;
     }
     return list;
 }
 
-// template <class T>
-// DoublyLinkedList<T>::Node *DoublyLinkedList<T>::BS(Node *start, Node *end, T val)
-// {
-//     // O(n)
-//     if (start == end || start->next == end)
-//     {
-//         if (start->val >= val)
-//         {
-//             return start;
-//         }
-//         else
-//         {
-//             return end;
-//         }
-//     }
-//     Node *slow = start;
-//     Node *fast = start;
-
-//     while (fast != end)
-//     {
-//         fast = fast->next->next;
-//         if (fast != end)
-//         {
-//             slow = slow->next;
-//             fast = fast->next;
-//         }
-//     }
-//     Node *mid = slow;
-//     if (mid->val < val)
-//     {
-//         return BS(mid->next, end, val);
-//     }
-//     else
-//     {
-//         return BS(start, mid, val);
-//     }
-// }
-
-template <class T>
-DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
+template <typename T>
+ListNode<T> *DoublyLinkedList<T>::getMiddleNode(ListNode<T> *start, ListNode<T> *end)
 {
     // O(n)
-    Node *startRange = this->BS(head, tail, start);
-    Node *endRange = this->BS(startRange, tail, end);
-    DoublyLinkedList<T> list;
-    Node *temp = startRange;
-    while (temp != endRange)
+    ListNode<T> *slow = start;
+    ListNode<T> *fast = start->getNext();
+    while (fast != end)
     {
-        list.addLast(temp->val);
-        temp = temp->next;
+        fast++;
+        if (fast != end)
+        {
+            slow++;
+            fast++;
+        }
     }
-    if (list.getData(0) != start)
-    {
-        std::cout << "Primer valor no en el rango" << std::endl;
-    }
+    return slow;
+}
 
-    if (temp->val == end)
+template <typename T>
+ListNode<T> *DoublyLinkedList<T>::lowerBound(ListNode<T> *start, ListNode<T> *end, T value)
+{
+    // O(n)
+    if (start >= end)
     {
-        list.addLast(temp->val);
+        return start;
+    }
+    ListNode<T> *mid = getMiddleNode(start, end);
+    if (mid->getData() < value)
+    {
+        mid++;
+        return lowerBound(mid, end, value);
+    }
+    else if (mid->getData() > value)
+    {
+        return lowerBound(start, mid, value);
     }
     else
     {
-        std::cout << "Ultimo valor no en el rango" << std::endl;
-        if (temp->val < end)
-        {
-            list.addLast(temp->val);
-        }
+        return mid;
     }
+}
+
+template <typename T>
+ListNode<T> *DoublyLinkedList<T>::upperBound(ListNode<T> *start, ListNode<T> *end, T value)
+{
+    // O(n)
+    if (start >= end)
+    {
+        return start;
+    }
+    ListNode<T> *mid = getMiddleNode(start, end);
+    if (mid->getData() < value)
+    {
+        mid++;
+        return upperBound(mid, end, value);
+    }
+    else if (mid->getData() > value)
+    {
+        return upperBound(start, mid, value);
+    }
+    else
+    {
+        mid++;
+        return upperBound(mid, end, value);
+    }
+}
+
+template <typename T>
+DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
+{
+    // O(n)
+    ListNode<T> *startNode = lowerBound(head, tail, start);
+    ListNode<T> *endNode = upperBound(startNode, tail, end);
+    DoublyLinkedList<T> list;
+    list.head = startNode;
+    list.tail = endNode;
+    list.size = endNode - startNode;
     return list;
 }
 

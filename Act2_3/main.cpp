@@ -1,105 +1,45 @@
 /*
-    g++ main.cpp -o main & .\main < .\TestCases\test0x.txt
-    Iván Romero || Mariano Barberi
+    Iván Alberto Romero Wells - A00833623
+    Mariano Barberi Garza - A01571226
+
+    Compilación:
+        g++ -std=c++17 -Wall -o main *.cpp
+
+    Ejecución:
+        main
 */
 
 #include <iostream>
 #include <string>
 #include "DoublyLinkedList.h"
 #include "Registro.h"
+#include "ListNode.h"
+#include "Bitacora.h"
 #include <fstream>
 #include <ctime>
 
 int main()
 {
+    std::ifstream in("bitacora.txt");
+    std::cout << "Leyendo archivo..." << std::endl;
+    Bitacora b;
+    b.ReadFile(in);
+    std::cout << "Archivo leido" << std::endl;
+    in.close();
+    std::cout << "Ordenando registros..." << std::endl;
+    b.sort();
+    std::cout << "Registros ordenados" << std::endl;
+
+    std::cout << "Introduzca la fecha de inicio del rango (ej: Jun 01 00:22:36): ";
     std::string line;
-    Registro first, last;
-    getline(cin, line);
-    int n = line.find(":");
-    std::string mes, dia, hora, minuto, segundo, falla, ip, puerto;
-    n = n + 2;
-    mes = line.substr(n, 3);
-    n = n + 4;
-    dia = line.substr(n, 2);
-    n += 3;
-    hora = line.substr(n, 2);
-    n += 3;
-    minuto = line.substr(n, 2);
-    n += 3;
-    segundo = line.substr(n, 2);
-    first = Registro(mes, dia, hora, minuto, segundo, "", "", "");
-
-    getline(cin, line);
-    n = line.find(":");
-    n = n + 2;
-    mes = line.substr(n, 3);
-    n = n + 4;
-    dia = line.substr(n, 2);
-    n += 3;
-    hora = line.substr(n, 2);
-    n += 3;
-    minuto = line.substr(n, 2);
-    n += 3;
-    segundo = line.substr(n, 2);
-
-    last = Registro(mes, dia, hora, minuto, segundo, "", "", "");
-    getline(cin, line);
-    getline(cin, line);
-    n = line.find(":");
-    int lim = line.find(" ", n);
-    int N = stoi(line.substr(n + 2, lim - n - 2));
-    DoublyLinkedList<Registro> lista;
-    for (int i = 0; i < N; i++)
-    {
-        getline(cin, line);
-        n = 0;
-        mes = line.substr(0, 3);
-        n = n + 4;
-        dia = line.substr(n, 2);
-        n += 3;
-        hora = line.substr(n, 2);
-        n += 3;
-        minuto = line.substr(n, 2);
-        n += 3;
-        segundo = line.substr(n, 2);
-        n += 3;
-        lim = line.find(":", n);
-        ip = line.substr(n, lim - n);
-        n = lim + 1;
-        lim = line.find(" ", n);
-        puerto = line.substr(n, lim - n);
-        n = lim + 1;
-        falla = line.substr(n, line.size() - n);
-        lista.addLast(Registro(mes, dia, hora, minuto, segundo, ip, puerto, falla));
-    }
-    
-    lista.sort();
-    std::ofstream filesort("bitacora_ordenada.txt");
-    if (filesort.is_open())
-    {
-        DoublyLinkedList<Registro>::iterator it = lista.begin();
-        while (it != lista.end())
-        {
-            filesort << (*it) << endl;
-            it++;
-        } 
-        filesort.close();
-    } else cout << "Problem with opening file";
-
-
-    DoublyLinkedList<Registro> lista2;
-    lista2 = lista.getRange(first,last);
-    std::ofstream filesearch("resultado_busqueda.txt");
-    if (filesearch.is_open())
-    {
-        DoublyLinkedList<Registro>::iterator it = lista2.begin();
-        while (it != lista2.end())
-        {
-            filesearch << (*it) << endl;
-            it++;
-        } 
-        filesearch.close();
-    } else cout << "Problem with opening file";
-
+    std::getline(std::cin, line);
+    Registro start(line);
+    std::cout << "Introduzca la fecha de fin del rango (ej: Jun 01 00:22:36): ";
+    std::getline(std::cin, line);
+    Registro end(line);
+    std::cout << "Buscando..." << std::endl;
+    std::ofstream out("resultado_busqueda.txt");
+    b.busquedaRango(start, end, out);
+    out.close();
     return 0;
 }
