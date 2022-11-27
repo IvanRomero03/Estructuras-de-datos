@@ -67,6 +67,7 @@ Registro::Registro(std::string mes, std::string dia, std::string hora, std::stri
 
 int Registro::IPtoInt(std::string ip) const
 {
+    // O(1)
     std::vector<std::string> octetos;
     std::string octeto = "";
     for (long long unsigned int i = 0; i < ip.size(); i++)
