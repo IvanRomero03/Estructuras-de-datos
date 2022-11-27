@@ -30,6 +30,10 @@ int main()
     b.sort();
     std::cout << "Registros ordenados" << std::endl;
 
+    std::ofstream out1("bitacora_ordenada.txt");
+    b.print(out1);
+    out1.close();
+
     std::cout << "Introduzca la fecha de inicio del rango (ej: Jun 01 00:22:36): ";
     std::string line;
     std::getline(std::cin, line);

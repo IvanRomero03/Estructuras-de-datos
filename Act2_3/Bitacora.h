@@ -12,13 +12,13 @@
 class Bitacora
 {
 private:
-    DoublyLinkedList<Registro> *bitacora;
+    DoublyLinkedList<Registro> bitacora;
     void ReadEdge(std::string line);
 
 public:
     Bitacora();
     ~Bitacora();
-    void print();
+    void print(std::ostream &out);
     void ReadFile(std::ifstream &file);
     void sort();
     void busquedaRango(Registro start, Registro end, std::ofstream &resultado_busqueda);
@@ -26,12 +26,10 @@ public:
 
 Bitacora::Bitacora()
 {
-    bitacora = new DoublyLinkedList<Registro>();
 }
 
 Bitacora::~Bitacora()
 {
-    delete bitacora;
 }
 
 void Bitacora::ReadFile(std::ifstream &file)
@@ -55,22 +53,22 @@ void Bitacora::ReadEdge(std::string line)
     puerto = ip.substr(ip.find(":") + 1, ip.length());
     ip = ip.substr(0, ip.find(":"));
     Registro r(mes, dia, hora, minuto, segundo, ip, puerto, falla);
-    bitacora->addLast(r);
+    bitacora.addLast(r);
 }
 
-void Bitacora::print()
+void Bitacora::print(std::ostream &out)
 {
-    bitacora->print();
+    bitacora.print(out);
 }
 
 void Bitacora::sort()
 {
-    bitacora->sort();
+    bitacora.mergeSort();
 }
 
 void Bitacora::busquedaRango(Registro start, Registro end, std::ofstream &resultado_busqueda)
 {
-    DoublyLinkedList<Registro> rango = bitacora->getRange(start, end);
+    DoublyLinkedList<Registro> rango = bitacora.getRange(start, end);
     rango.print();
     ListNode<Registro> *current = rango.getHead();
     while (current != nullptr)

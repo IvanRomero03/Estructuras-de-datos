@@ -13,7 +13,7 @@ private:
     ListNode<T> *head;
     ListNode<T> *tail;
     int size;
-    void split(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2, int index);
+    void split(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2);
     DoublyLinkedList<T> merge(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2);
     ListNode<T> *getMiddleNode(ListNode<T> *start, ListNode<T> *end);
     ListNode<T> *lowerBound(ListNode<T> *start, ListNode<T> *end, T value);
@@ -34,11 +34,12 @@ public:
     int getSize();
     void setSize(int size);
     void print();
+    void print(std::ostream &out);
     // void operator=(DoublyLinkedList<T> &list);
     void operator=(std::vector<T> &list);
-    void operator=(DoublyLinkedList<T> list);
+    void operator=(DoublyLinkedList<T> &list);
     void clear();
-    void sort();
+    void mergeSort();
     void duplicate();
     void removeDuplicates();
     void reverse();
@@ -333,6 +334,18 @@ void DoublyLinkedList<T>::print()
 }
 
 template <typename T>
+void DoublyLinkedList<T>::print(std::ostream &out)
+{
+    // O(n)
+    ListNode<T> *temp = head;
+    while (temp != NULL)
+    {
+        out << temp->getData() << " " << std::endl;
+        temp = temp->getNext();
+    }
+}
+
+template <typename T>
 void DoublyLinkedList<T>::operator=(std::vector<T> &vec)
 {
     // O(n)
@@ -344,41 +357,42 @@ void DoublyLinkedList<T>::operator=(std::vector<T> &vec)
 }
 
 template <typename T>
-void DoublyLinkedList<T>::operator=(DoublyLinkedList<T> list)
+void DoublyLinkedList<T>::operator=(DoublyLinkedList<T> &list)
 {
     // O(n)
-    std::cout << "operator=" << std::endl;
     clear();
-    std::cout << "cleared" << std::endl;
     ListNode<T> *temp = list.getHead();
-    std::cout << "got head" << std::endl;
     while (temp != NULL)
     {
-        std::cout << "adding " << temp->getData() << std::endl;
         addLast(temp->getData());
-        std::cout << "added" << std::endl;
         temp = temp->getNext();
-        std::cout << "got next" << std::endl;
     }
-    std::cout << "done =" << std::endl;
+    delete temp;
+    return;
 }
 
 template <typename T>
-void DoublyLinkedList<T>::split(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2, int index)
+void DoublyLinkedList<T>::split(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2)
 {
     // O(n)
+    ListNode<T> *slow = head;
+    ListNode<T> *fast = head;
     list1.clear();
     list2.clear();
-    ListNode<T> *temp = head;
-    for (int i = 0; i < index; i++)
+    while (fast != NULL)
     {
-        list1.addLast(temp->getData());
-        temp = temp->getNext();
+        list1.addLast(slow->getData());
+        slow = slow->getNext();
+        fast = fast->getNext();
+        if (fast != NULL)
+        {
+            fast = fast->getNext();
+        }
     }
-    while (temp != NULL)
+    while (slow != NULL)
     {
-        list2.addLast(temp->getData());
-        temp = temp->getNext();
+        list2.addLast(slow->getData());
+        slow = slow->getNext();
     }
 }
 
@@ -416,29 +430,24 @@ DoublyLinkedList<T> DoublyLinkedList<T>::merge(DoublyLinkedList<T> &list1, Doubl
 }
 
 template <typename T>
-void DoublyLinkedList<T>::sort()
+void DoublyLinkedList<T>::mergeSort()
 {
     // O(n log n)
     // Merge Sort
-    if (size > 1)
+    if (size == 1)
     {
-        std::cout << "Sorting..." << std::endl;
-        DoublyLinkedList<T> list1;
-        DoublyLinkedList<T> list2;
-        int index = size / 2;
-        std::cout << "Splitting..." << std::endl;
-        split(list1, list2, index);
-        std::cout << "sizes: 1) " << list1.getSize() << " 2) " << list2.getSize() << std::endl;
-        std::cout << "Sorting list 1..." << list1.getSize() << std::endl;
-        list1.sort();
-        std::cout << "Sorting list 2..." << list2.getSize() << std::endl;
-        list2.sort();
-        std::cout << "Merging..." << std::endl;
-        DoublyLinkedList<T> list = merge(list1, list2);
-        list.print();
-        this->operator=(list);
-        std::cout << "Done!" << std::endl;
+        return;
     }
+    DoublyLinkedList<T> list1, list2;
+    split(list1, list2);
+    list1.mergeSort();
+    list2.mergeSort();
+    DoublyLinkedList<T> list = merge(list1, list2);
+    *this = list;
+    list1.clear();
+    list2.clear();
+    list.clear();
+    return;
 }
 
 template <typename T>
