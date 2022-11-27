@@ -74,7 +74,7 @@ void HashTable::print()
 
 void HashTable::add(std::string ip)
 {
-    // O(n)
+    // O(1)
     if (size == maxSize)
     {
         throw std::out_of_range("Limit of records reached");
@@ -100,7 +100,6 @@ void HashTable::add(std::string ip)
             int i = 1;
             // Encontrando el siguiente espacio libre usando la exploración cuadrática (index + i^2) hasta encontrar un espacio vacío
             // https://www.geeksforgeeks.org/quadratic-probing-in-hashing/
-            // O(n)
             while (table[(index + i * i) % maxSize].getStatus() == 1)
             {
                 i++;
