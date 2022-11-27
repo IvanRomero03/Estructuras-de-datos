@@ -1,10 +1,13 @@
-// Mariano Barberi Garza A01571226 | Iván Alberto Romero Wells A00833623
-//
-//Compilación:
-// g++ -std=c++17 -Wall -O3 -o main *.cpp
-//
-//Ejecución:
-//main
+/*
+    Iván Alberto Romero Wells - A00833623
+    Mariano Barberi Garza - A01571226
+
+    Compilación:
+        g++ -std=c++17 -Wall -o main *.cpp
+
+    Ejecución:
+        main
+*/
 
 #include <iostream>
 #include <string>
