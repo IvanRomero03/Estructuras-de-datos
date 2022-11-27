@@ -41,9 +41,7 @@ int main()
     std::cout << "Introduzca la fecha de fin del rango (ej: Jun 01 00:22:36): ";
     std::getline(std::cin, line);
     Registro end(line);
-    std::cout << "Buscando..." << std::endl;
     std::ofstream out("resultado_busqueda.txt");
-    std::cout << "empezando a buscar" << std::endl;
     b.busquedaRango(start, end, out);
     std::cout << "Busqueda terminada" << std::endl;
     out.close();

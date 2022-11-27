@@ -26,14 +26,18 @@ public:
 
 Bitacora::Bitacora()
 {
+    // O(1)
 }
 
 Bitacora::~Bitacora()
 {
+    // O(n)
+    bitacora.clear();
 }
 
 void Bitacora::ReadFile(std::ifstream &file)
 {
+    // O(n)
     std::string line;
     while (getline(file, line))
     {
@@ -43,6 +47,7 @@ void Bitacora::ReadFile(std::ifstream &file)
 
 void Bitacora::ReadEdge(std::string line)
 {
+    // O(1)
     std::string mes, dia, hora, minuto, segundo, ip, puerto, falla;
     std::stringstream ss(line);
     ss >> mes >> dia >> hora >> ip;
@@ -58,23 +63,31 @@ void Bitacora::ReadEdge(std::string line)
 
 void Bitacora::print(std::ostream &out)
 {
+    // O(n)
     bitacora.print(out);
 }
 
 void Bitacora::sort()
 {
+    // O(n log n)
     bitacora.mergeSort();
 }
 
 void Bitacora::busquedaRango(Registro start, Registro end, std::ofstream &resultado_busqueda)
 {
-    std::cout << "rango" << std::endl;
-    std::cout << start << std::endl;
-    std::cout << end << std::endl;
+    // O(n) (n = cantidad de registros en el rango)
+    // log n comparaciones
     DoublyLinkedList<Registro> rango = bitacora.getRange(start, end);
-    std::cout << "rango obtenido" << std::endl;
+    if (rango.getTail()->getData() > end)
+    {
+        rango.removeLast();
+    }
+    if (rango.getHead()->getData() < start)
+    {
+        rango.removeFirst();
+    }
+    std::cout << "Rango de busqueda: " << start << " - " << end << std::endl;
     rango.print();
-    std::cout << "rango impreso" << std::endl;
     ListNode<Registro> *current = rango.getHead();
     while (current != NULL)
     {
@@ -83,12 +96,16 @@ void Bitacora::busquedaRango(Registro start, Registro end, std::ofstream &result
     }
     if (rango.getHead()->getData() != start)
     {
+        std::cout << "No se encontro el primer registro en el rango especificado" << std::endl;
         resultado_busqueda << "No se encontro el primer registro en el rango especificado" << std::endl;
     }
     if (rango.getTail()->getData() != end)
     {
+        std::cout << "No se encontro el ultimo registro en el rango especificado" << std::endl;
         resultado_busqueda << "No se encontro el ultimo registro en el rango especificado" << std::endl;
     }
+    rango.clear();
+    delete current;
 }
 
 #endif // _BITACORA_H_

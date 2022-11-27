@@ -48,6 +48,8 @@ public:
     DoublyLinkedList<T> getRange(T start, T end);
     ListNode<T> *getHead();
     ListNode<T> *getTail();
+    void removeFirst();
+    void removeLast();
 };
 
 template <typename T>
@@ -176,14 +178,14 @@ bool DoublyLinkedList<T>::deleteAt(int index)
         ListNode<T> *temp = head;
         for (int i = 0; i < index; i++)
         {
-            temp = temp->next;
+            temp = temp->getNext();
         }
         if (temp == head)
         {
-            head = head->next;
+            head = head->getNext();
             if (head != NULL)
             {
-                head->prev = NULL;
+                head->setPrev(NULL);
             }
             else
             {
@@ -192,13 +194,13 @@ bool DoublyLinkedList<T>::deleteAt(int index)
         }
         else if (temp == tail)
         {
-            tail = tail->prev;
-            tail->next = NULL;
+            tail = tail->getPrev();
+            tail->setNext(NULL);
         }
         else
         {
-            temp->prev->next = temp->next;
-            temp->next->prev = temp->prev;
+            temp->getPrev()->setNext(temp->getNext());
+            temp->getNext()->setPrev(temp->getPrev());
         }
         delete temp;
         size--;
@@ -571,7 +573,7 @@ template <typename T>
 ListNode<T> *DoublyLinkedList<T>::BS(ListNode<T> *start, ListNode<T> *end, T value)
 {
     // O(n)
-    if (start->getNext() == end)
+    if (start->getNext() == end || start == end)
     {
         return start;
     }
@@ -594,20 +596,52 @@ template <typename T>
 DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
 {
     // O(n)
-    std::cout << "getRange(" << start << ", " << end << ")" << std::endl;
     ListNode<T> *startNode = BS(head, tail, start);
-    std::cout << "startNode: " << startNode->getData() << std::endl;
     ListNode<T> *endNode = BS(head, tail, end);
-    std::cout << "endNode: " << endNode->getData() << std::endl;
     DoublyLinkedList<T> list;
     ListNode<T> *temp = startNode;
-    std::cout << "antes while" << std::endl;
     while (temp != endNode->getNext())
     {
         list.addLast(temp->getData());
         temp = temp->getNext();
     }
     return list;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::removeFirst()
+{
+    // O(1)
+    if (head == NULL)
+    {
+        return;
+    }
+    ListNode<T> *temp = head;
+    head = head->getNext();
+    if (head != NULL)
+    {
+        head->setPrev(NULL);
+    }
+    delete temp;
+    size--;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::removeLast()
+{
+    // O(1)
+    if (tail == NULL)
+    {
+        return;
+    }
+    ListNode<T> *temp = tail;
+    tail = tail->getPrev();
+    if (tail != NULL)
+    {
+        tail->setNext(NULL);
+    }
+    delete temp;
+    size--;
 }
 
 #endif // _DoublyLinkedList_H_
