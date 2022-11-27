@@ -17,14 +17,15 @@ class Bitacora
 private:
     PriorityQueue<Registro> bitacora_pq;
     BinarySearchTree count_ips;
+    std::vector<Registro> bitacoraOrdenada;
     void ReadEdge(std::string line);
-    std::unordered_map<std::string, int> ips;
 
 public:
     Bitacora();
     ~Bitacora();
     void print(std::ostream &out);
     void ReadFile(std::ifstream &file);
+    void GroupByIP();
     void printTopN(int n, std::ofstream &ips_con_mayor_acceso);
     void printBitacora(std::ofstream &bitacora_ordenada);
 };
@@ -64,31 +65,7 @@ void Bitacora::ReadEdge(std::string line)
     puerto = ip.substr(ip.find(":") + 1, ip.length());
     ip = ip.substr(0, ip.find(":"));
     Registro r(mes, dia, hora, minuto, segundo, ip, puerto, falla);
-    std::cout << r << std::endl;
-    std::cout << "pushing " << std::endl;
     bitacora_pq.push(r);
-    std::cout << "pushed " << std::endl;
-    std::cout << "finding " << std::endl;
-
-    if (ips.find(r.getIP()) == ips.end())
-        std::cout << "new ip" << std::endl;
-
-    ips[r.getIP()]++;
-
-    if (count_ips.find(r))
-    {
-        std::cout << "found " << std::endl;
-        std::cout << "incrementing " << std::endl;
-        count_ips.addAt(r);
-        std::cout << "incremented " << std::endl;
-    }
-    else
-    {
-        std::cout << "not found " << std::endl;
-        std::cout << "inserting " << std::endl;
-        count_ips.insert(Registro_Count(r));
-        std::cout << "inserted " << std::endl;
-    }
 }
 
 void Bitacora::print(std::ostream &out)
@@ -101,16 +78,14 @@ void Bitacora::printTopN(int n, std::ofstream &ips_con_mayor_acceso)
 {
     // O(n)
     Registro_Count Top;
+    count_ips.print();
     for (int i = 0; i < n; i++)
     {
         std::cout << "Top " << i + 1 << ": ";
         Top = count_ips.getBiggest();
-        std::cout << "aqui" << std::endl;
         std::cout << Top.getRegistro().getIP() << " " << Top.getCount() << std::endl;
         ips_con_mayor_acceso << Top.getRegistro().getIP() << " " << Top.getCount() << std::endl;
-        std::cout << "aqui2" << std::endl;
         count_ips.deleteNode(Top);
-        std::cout << "aqui3" << std::endl;
     }
 }
 
@@ -120,8 +95,30 @@ void Bitacora::printBitacora(std::ofstream &bitacora_ordenada)
     while (!bitacora_pq.empty())
     {
         bitacora_ordenada << bitacora_pq.top() << std::endl;
+        bitacoraOrdenada.push_back(bitacora_pq.top());
         bitacora_pq.pop();
     }
+}
+
+void Bitacora::GroupByIP()
+{
+    // O(n)
+    Registro prev = bitacoraOrdenada[0];
+    int count = 1;
+    for (int i = 1; i < (int)bitacoraOrdenada.size(); i++)
+    {
+        if (prev == bitacoraOrdenada[i])
+        {
+            count++;
+        }
+        else
+        {
+            count_ips.insert(Registro_Count(prev, count));
+            count = 1;
+            prev = bitacoraOrdenada[i];
+        }
+    }
+    count_ips.insert(Registro_Count(prev, count));
 }
 
 #endif // _BITACORA_H_

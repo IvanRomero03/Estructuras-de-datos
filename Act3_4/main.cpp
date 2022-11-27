@@ -21,6 +21,9 @@ int main()
 
     std::cout << "Ordenando registros..." << std::endl;
     bitacora.printBitacora(bitacora_ordenada);
+    std::cout << "Contando accesos por IP..." << std::endl;
+    bitacora.GroupByIP();
+
     std::cout << "Registros ordenados" << std::endl;
     bitacora.printTopN(5, ips_con_mayor_acceso);
     std::cout << "Top 5 IPs con mayor acceso" << std::endl;
