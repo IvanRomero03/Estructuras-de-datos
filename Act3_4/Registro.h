@@ -6,6 +6,7 @@
 #include <vector>
 #include <ctime>
 #include <unordered_map>
+#include <cmath>
 
 class Registro
 {
@@ -63,36 +64,33 @@ Registro::Registro(std::string mes, std::string dia, std::string hora, std::stri
     this->timeStruct.tm_year = 122;
     this->timeStamp = mktime(&timeStruct);
 }
+
 int Registro::IPtoInt(std::string ip) const
 {
-    // O(1)
-    int res = 0;
-    int i = 0;
-    while (ip[i] != '.')
+    std::vector<std::string> octetos;
+    std::string octeto = "";
+    for (long long unsigned int i = 0; i < ip.size(); i++)
     {
-        res = res * 10 + (ip[i] - '0');
-        i++;
+        if (ip[i] == '.')
+        {
+            octetos.push_back(octeto);
+            octeto = "";
+        }
+        else
+        {
+            octeto += ip[i];
+        }
     }
-    i++;
-    while (ip[i] != '.')
+    octetos.push_back(octeto);
+    int ipInt = 0;
+    for (long long unsigned int i = 0; i < octetos.size(); i++)
     {
-        res = res * 10 + (ip[i] - '0');
-        i++;
+        ipInt += stoi(octetos[i]) * pow(256, 3 - i);
     }
-    i++;
-    while (ip[i] != '.')
-    {
-        res = res * 10 + (ip[i] - '0');
-        i++;
-    }
-    i++;
-    while (ip[i] != '\0')
-    {
-        res = res * 10 + (ip[i] - '0');
-        i++;
-    }
-    return res;
+    return ipInt;
+
 }
+
 bool Registro::operator==(const Registro &otro) const
 {
     // O(1)
