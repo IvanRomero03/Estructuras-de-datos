@@ -16,8 +16,7 @@ private:
     void split(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2);
     DoublyLinkedList<T> merge(DoublyLinkedList<T> &list1, DoublyLinkedList<T> &list2);
     ListNode<T> *getMiddleNode(ListNode<T> *start, ListNode<T> *end);
-    ListNode<T> *lowerBound(ListNode<T> *start, ListNode<T> *end, T value);
-    ListNode<T> *upperBound(ListNode<T> *start, ListNode<T> *end, T value);
+    ListNode<T> *BS(ListNode<T> *start, ListNode<T> *end, T value);
 
 public:
     DoublyLinkedList();
@@ -327,7 +326,7 @@ void DoublyLinkedList<T>::print()
     ListNode<T> *temp = head;
     while (temp != NULL)
     {
-        std::cout << temp->getData() << " ";
+        std::cout << temp->getData() << std::endl;
         temp = temp->getNext();
     }
     std::cout << std::endl;
@@ -569,33 +568,10 @@ ListNode<T> *DoublyLinkedList<T>::getMiddleNode(ListNode<T> *start, ListNode<T> 
 }
 
 template <typename T>
-ListNode<T> *DoublyLinkedList<T>::lowerBound(ListNode<T> *start, ListNode<T> *end, T value)
+ListNode<T> *DoublyLinkedList<T>::BS(ListNode<T> *start, ListNode<T> *end, T value)
 {
     // O(n)
-    if (start >= end)
-    {
-        return start;
-    }
-    ListNode<T> *mid = getMiddleNode(start, end);
-    if (mid->getData() < value)
-    {
-        return lowerBound(mid->getNext(), end, value);
-    }
-    else if (mid->getData() > value)
-    {
-        return lowerBound(start, mid, value);
-    }
-    else
-    {
-        return mid;
-    }
-}
-
-template <typename T>
-ListNode<T> *DoublyLinkedList<T>::upperBound(ListNode<T> *start, ListNode<T> *end, T value)
-{
-    // O(n)
-    // Returns the first element greater than value from end to start
+    
     if (start == end)
     {
         return start;
@@ -603,11 +579,11 @@ ListNode<T> *DoublyLinkedList<T>::upperBound(ListNode<T> *start, ListNode<T> *en
     ListNode<T> *mid = getMiddleNode(start, end);
     if (mid->getData() < value)
     {
-        return upperBound(mid->getNext(), end, value);
+        return BS(mid->getNext(), end, value);
     }
     else if (mid->getData() > value)
     {
-        return upperBound(start, mid, value);
+        return BS(start, mid, value);
     }
     else
     {
@@ -620,9 +596,9 @@ DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
 {
     // O(n)
     std::cout << "getRange(" << start << ", " << end << ")" << std::endl;
-    ListNode<T> *startNode = lowerBound(head, tail, start);
+    ListNode<T> *startNode = BS(head, tail, start);
     std::cout << "startNode: " << startNode->getData() << std::endl;
-    ListNode<T> *endNode = upperBound(startNode, tail, end);
+    ListNode<T> *endNode = BS(head, tail, end);
     std::cout << "endNode: " << endNode->getData() << std::endl;
     DoublyLinkedList<T> list;
     ListNode<T> *temp = startNode;
