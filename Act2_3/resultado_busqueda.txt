@@ -1,0 +1,3 @@
+0x24cb018f140
+0x24cb01925c0
+No se encontro el primer registro en el rango especificado

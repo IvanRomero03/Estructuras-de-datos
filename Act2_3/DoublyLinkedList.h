@@ -596,7 +596,7 @@ ListNode<T> *DoublyLinkedList<T>::upperBound(ListNode<T> *start, ListNode<T> *en
 {
     // O(n)
     // Returns the first element greater than value from end to start
-    if (start >= end)
+    if (start == end)
     {
         return start;
     }
@@ -632,11 +632,6 @@ DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
         list.addLast(temp->getData());
         temp = temp->getNext();
     }
-    std::cout << "despues while" << std::endl;
-    delete startNode;
-    delete endNode;
-    delete temp;
-    std::cout << "despues delete" << std::endl;
     return list;
 }
 
