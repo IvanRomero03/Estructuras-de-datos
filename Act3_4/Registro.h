@@ -13,19 +13,7 @@ private:
     struct tm timeStruct;
     time_t timeStamp;
     std::string mes, dia, hora, minuto, segundo, ip, puerto, falla;
-    std::unordered_map<std::string, int> meses = {
-        {"Jan", 0},
-        {"Feb", 1},
-        {"Mar", 2},
-        {"Apr", 3},
-        {"May", 4},
-        {"Jun", 5},
-        {"Jul", 6},
-        {"Aug", 7},
-        {"Sep", 8},
-        {"Oct", 9},
-        {"Nov", 10},
-        {"Dec", 11}};
+    std::unordered_map<std::string, int> meses = {{"Jan", 0}, {"Feb", 1}, {"Mar", 2}, {"Apr", 3}, {"May", 4}, {"Jun", 5}, {"Jul", 6}, {"Aug", 7}, {"Sep", 8}, {"Oct", 9}, {"Nov", 10}, {"Dec", 11}};
     int IPtoInt(std::string ip) const;
 
 public:

@@ -30,6 +30,7 @@ public:
 template <typename T>
 PriorityQueue<T>::PriorityQueue()
 {
+    // O(1)
 }
 
 template <typename T>
@@ -46,6 +47,7 @@ PriorityQueue<T>::PriorityQueue(std::vector<T> list)
 template <typename T>
 PriorityQueue<T>::~PriorityQueue()
 {
+    // O(1)
 }
 
 template <typename T>
@@ -64,9 +66,9 @@ void PriorityQueue<T>::heap(int i)
     int left = 2 * i + 1;
     int right = 2 * i + 2;
     int largest = i;
-    if (left < list.size() && list[left] > list[largest])
+    if (left < (int)list.size() && list[left] > list[largest])
         largest = left;
-    if (right < list.size() && list[right] > list[largest])
+    if (right < (int)list.size() && list[right] > list[largest])
         largest = right;
     if (largest != i)
     {
@@ -132,7 +134,7 @@ template <typename T>
 void PriorityQueue<T>::print(std::ostream &os)
 {
     // O(n)
-    for (int i = 0; i < list.size(); i++)
+    for (int i = 0; i < (int)list.size(); i++)
     {
         os << list[i] << std::endl;
     }
