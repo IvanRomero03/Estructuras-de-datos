@@ -68,13 +68,18 @@ void Bitacora::sort()
 
 void Bitacora::busquedaRango(Registro start, Registro end, std::ofstream &resultado_busqueda)
 {
+    std::cout << "rango" << std::endl;
+    std::cout << start << std::endl;
+    std::cout << end << std::endl;
     DoublyLinkedList<Registro> rango = bitacora.getRange(start, end);
+    std::cout << "rango obtenido" << std::endl;
     rango.print();
+    std::cout << "rango impreso" << std::endl;
     ListNode<Registro> *current = rango.getHead();
-    while (current != nullptr)
+    while (current != NULL)
     {
         resultado_busqueda << current << std::endl;
-        current++;
+        current = current->getNext();
     }
     if (rango.getHead()->getData() != start)
     {

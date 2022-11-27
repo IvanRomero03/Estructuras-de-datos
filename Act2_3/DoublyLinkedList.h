@@ -558,11 +558,11 @@ ListNode<T> *DoublyLinkedList<T>::getMiddleNode(ListNode<T> *start, ListNode<T> 
     ListNode<T> *fast = start->getNext();
     while (fast != end)
     {
-        fast++;
+        fast = fast->getNext();
         if (fast != end)
         {
-            slow++;
-            fast++;
+            slow = slow->getNext();
+            fast = fast->getNext();
         }
     }
     return slow;
@@ -579,8 +579,7 @@ ListNode<T> *DoublyLinkedList<T>::lowerBound(ListNode<T> *start, ListNode<T> *en
     ListNode<T> *mid = getMiddleNode(start, end);
     if (mid->getData() < value)
     {
-        mid++;
-        return lowerBound(mid, end, value);
+        return lowerBound(mid->getNext(), end, value);
     }
     else if (mid->getData() > value)
     {
@@ -596,6 +595,7 @@ template <typename T>
 ListNode<T> *DoublyLinkedList<T>::upperBound(ListNode<T> *start, ListNode<T> *end, T value)
 {
     // O(n)
+    // Returns the first element greater than value from end to start
     if (start >= end)
     {
         return start;
@@ -603,8 +603,7 @@ ListNode<T> *DoublyLinkedList<T>::upperBound(ListNode<T> *start, ListNode<T> *en
     ListNode<T> *mid = getMiddleNode(start, end);
     if (mid->getData() < value)
     {
-        mid++;
-        return upperBound(mid, end, value);
+        return upperBound(mid->getNext(), end, value);
     }
     else if (mid->getData() > value)
     {
@@ -612,8 +611,7 @@ ListNode<T> *DoublyLinkedList<T>::upperBound(ListNode<T> *start, ListNode<T> *en
     }
     else
     {
-        mid++;
-        return upperBound(mid, end, value);
+        return mid->getNext();
     }
 }
 
@@ -621,12 +619,24 @@ template <typename T>
 DoublyLinkedList<T> DoublyLinkedList<T>::getRange(T start, T end)
 {
     // O(n)
+    std::cout << "getRange(" << start << ", " << end << ")" << std::endl;
     ListNode<T> *startNode = lowerBound(head, tail, start);
+    std::cout << "startNode: " << startNode->getData() << std::endl;
     ListNode<T> *endNode = upperBound(startNode, tail, end);
+    std::cout << "endNode: " << endNode->getData() << std::endl;
     DoublyLinkedList<T> list;
-    list.head = startNode;
-    list.tail = endNode;
-    list.size = endNode - startNode;
+    ListNode<T> *temp = startNode;
+    std::cout << "antes while" << std::endl;
+    while (temp != endNode)
+    {
+        list.addLast(temp->getData());
+        temp = temp->getNext();
+    }
+    std::cout << "despues while" << std::endl;
+    delete startNode;
+    delete endNode;
+    delete temp;
+    std::cout << "despues delete" << std::endl;
     return list;
 }
 

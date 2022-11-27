@@ -43,7 +43,9 @@ int main()
     Registro end(line);
     std::cout << "Buscando..." << std::endl;
     std::ofstream out("resultado_busqueda.txt");
+    std::cout << "empezando a buscar" << std::endl;
     b.busquedaRango(start, end, out);
+    std::cout << "Busqueda terminada" << std::endl;
     out.close();
     return 0;
 }
