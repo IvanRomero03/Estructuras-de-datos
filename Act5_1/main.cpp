@@ -25,6 +25,7 @@ int main()
 
     numerosARomano.remove(1);
     numerosARomano.remove(2);
+    numerosARomano.remove(9);
 
     for (int i = 1; i <= 10; i++)
     {
