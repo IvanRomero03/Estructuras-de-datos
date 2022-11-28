@@ -41,7 +41,7 @@ HashTable<K, T>::HashTable(int maxSize)
 template <class K, class T>
 HashTable<K, T>::~HashTable()
 {
-    // O(n)
+    // O(1)
     this->currentSize = 0;
     this->maxSize = 0;
     this->table.clear();
