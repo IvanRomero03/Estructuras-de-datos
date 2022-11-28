@@ -18,7 +18,7 @@ private:
 public:
     HashTable(int selectedMaxSize);
     ~HashTable();
-    int getHashIndex(K keyVal); // Funcion hash
+    int getHashIndex(K keyVal);
     int getCurrentSize();
     void print();
     void add(K keyValue, T dataValue);
